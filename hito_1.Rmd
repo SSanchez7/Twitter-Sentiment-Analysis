@@ -1,14 +1,28 @@
 ---
-title: "R Notebook"
+title: "Proyecto semestral: Hito 1"
+author: "Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez, Sebastián Urbina"
+date: "Octubre 2020"
 output:
   html_document:
-    df_print: paged
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
 ---
+# Introducción
 
-**Introducción**
+Lo que escribio yessenia
 
+Motivación
 
-```{r}
+# Descripción de base de datos
+
+Acá describir un poco de qué se trata la base de datos
+
+# Análisis descriptivo
+
+```{r, message = F, warning=F}
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
