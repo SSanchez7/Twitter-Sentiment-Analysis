@@ -135,6 +135,66 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
   coord_flip()
 ```
+```{r}
+require(RColorBrewer)
+require(wordcloud)
+require(wordcloud2)
+top <- 400
+```
 
+```{r}
+#Palabras mas repetidas en comentarios negativos y extremadamente negativos
+neg_tweets <- tweets_expand %>% 
+  filter(Sentiment == "Negative" | Sentiment == "Extremely Negative") %>%
+  count(word)
+neg_tweets_top <- neg_tweets%>% 
+  arrange(desc(n)) %>%
+  top_n(top,n) 
+
+wordcloud(head(neg_tweets_top$word, 100), head(neg_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+wordcloud2(data=neg_tweets_top, size=1.6, color='random-dark')
+```
+
+```{r}
+#Palabras mas repetidas en comentarios neutrales
+neu_tweets <- tweets_expand %>% 
+  filter(Sentiment == "Neutral") %>%
+  count(word)
+neu_tweets_top <- neu_tweets%>%
+  arrange(desc(n)) %>%
+  top_n(top,n) 
+  
+
+wordcloud(head(neu_tweets_top$word, 100), head(neu_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+wordcloud2(data=neu_tweets_top, size=1.6, color='random-dark')
+```
+
+```{r}
+#Palabra mas repetidas en comentarios positivos y extremadamente positivos
+pos_tweets <- tweets_expand %>% 
+  filter(Sentiment == "Positive" | Sentiment == "Extremely Positive") %>%
+  count(word)
+pos_tweets_top <- pos_tweets%>% 
+  arrange(desc(n)) %>%
+  top_n(top,n) 
+
+wordcloud(head(pos_tweets_top$word, 100), head(pos_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+wordcloud2(data=pos_tweets_top, size=1.6, color='random-dark')
+```
+
+```{r}
+#Promedio en el largo de palabras por sentimiento.
+require(stringr)
+cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
+cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
+cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
+```
+```{r}
+#Revisar Hashtags mas populares
+```
+
+```{r}
+#N-grams (?)
+```
 
 
