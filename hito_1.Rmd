@@ -121,6 +121,30 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
   coord_flip()
 ```
+```{r}
+require(RColorBrewer)
+require(wordcloud)
+```
+
+```{r}
+#Palabras mas repetidas en comentarios negativos
+neg_tweets <- tweets_expand %>% 
+  filter(Sentiment == "Negative" | Sentiment == "Extremely Negative") %>%
+  count(word) %>% 
+  top_n(50,n)
+
+wordcloud(head(neg_tweets$word, 100), head(neg_tweets$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+```
+
+```{r}
+#Palabra mas repetidas en comentarios positivos
+pos_tweets <- tweets_expand %>% 
+  filter(Sentiment == "Positive" | Sentiment == "Extremely Positive") %>%
+  count(word) %>% 
+  top_n(50,n)
+
+wordcloud(head(pos_tweets$word, 100), head(pos_tweets$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+```
 
 
 
