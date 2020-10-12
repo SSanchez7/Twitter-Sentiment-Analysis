@@ -82,6 +82,7 @@ ggplot(data=df, aes(x=TweetAt)) + geom_histogram(position="identity", bins=30) +
 
 Un comportamiento particular de los datos es que a finales de marzo la cantidad de tweets registrados disminiye considerablemente llegando a ser nulo, mientras que la mayor cantidad de tweets se encuentra concentrada durante la tercera semana de marzo y la segunda semana de abril.
 
+Un campo importante que posee esta base de datos es la columna "Sentiment", la cual representa el sentimiento asociado al tweet registrado. A continuación se la cantidad de tweets por cada tipo de sentimiento ("Extremely Negative", "Extremely Postive", "Negative", "Neutral", "Positive") durante el periodo regisreado en el set de datos.
 ```{r}
 tweets_mes_dia <- df %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
 tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
@@ -94,12 +95,24 @@ tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
         legend.position = "bottom")
 ```
 
+Se puede observar en este último gráfico que en general aquellos sentimientos que prevalecen son los de "Positive" y "Negative". Por otro lado, todos los tipos de sentimientos registrados tienen un comportamiento similar de crecimiento en el tiempo. El sentimiento menos registrados en el tiempo en general corresponde al de "Extremely Negative", lo cual es interesante dado el contexto de la base de datos, en donde se esperaría que hubiese una mayor cantidad de tweets asociado a un sentimiento negativo o extramademente negativo.
+
+En el siguiente gráfico se puede observar la cantidad de tweets por cada tipo de sentimiento durante todo el periodo de observación.
 ```{r}
 # library(tidyverse)
 #tweets_sentiment <- df %>% group_by(Sentiment) %>% summarise(n = n())
 df %>% ggplot(aes(x = Sentiment)) + geom_bar(stat="count") + coord_flip() + theme_bw()
 ```
 
+Se observa que tal y como se mencionó anteriormente, los sentimientos que destacan son "Positive" y "Negative", alcanzando un total aproximado de 13000 y 11000 tweets respectivamente. El sentimiento con una menor cantidad de registros es "Extremely Negative", con un aproximado de 6000 tweets. 
+
+Si se comparación la proporción de estos tweets en comparación al total del periodo de observación, se tiene que el porcentaje asociado a cada sentimiento son los siguientes:
+
+```{r}
+df %>% group_by(Sentiment) %>% summarise(Proporcion = n()/nrow(df)) %>% arrange(-Proporcion)
+```
+
+Es decir, el sentimiento "Positive" representa al 27,5% de los tweets del set de datos, mientras que el 13,5% de los tweets están categorizados bajo el sentimiento "Extremely Negative".
 ```{r}
 limpiar_texto <- function(texto){
     # Se convierte todo el texto a minúsculas
