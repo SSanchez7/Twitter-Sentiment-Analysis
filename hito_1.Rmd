@@ -129,8 +129,8 @@ Otro punto importante a caracterizar es la locación en donde se emiten los twee
 top_10 <- df %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
 top_10 <- top_10[1:10,]
 top_10$N <- round(top_10$N,4)
-  top_10 %>% ggplot(aes(x=reorder(Location,N), y =N )) + 
-    geom_bar(stat="identity") + 
+ggplot(top_10,aes(x=reorder(Location,N), y =N )) + 
+  geom_bar(stat="identity") + 
   coord_flip() + 
   labs(x="Pais", y = "Proporción del total de tweets", title="Top-10 locaciones con más tweets") +
   theme_bw() 
