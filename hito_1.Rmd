@@ -14,7 +14,6 @@ output:
 
 Lo que escribio yessenia
 
-Motivación
 
 Motivacion:
 
@@ -26,8 +25,12 @@ Motivacion:
 - Entrenar modelos predecitivos en base a tweets y accuracy. BD de entrenamiento y BD extra.
 
 # Descripción de base de datos
+La base de datos consta de 44955 filas con 6 atributos cada uno. Por cada fila hay un atributo que puede tener un valor nulo, "Location", y el resto de atributos siempre tiene valor distinto de nulo.
 
-Acá describir un poco de qué se trata la base de datos
+La información más importante está en la columna "OriginalTweet", porque aquí está el mensaje del usuario. Otro atributo importante es "Location", pero tiene un nivel mayor de dificultad trabajar con este atributo, ya que se debe reconocer que ciudades y comunas pertenecen a cada país para poder realizar una exploración de datos correcto. El atributo "TweetAt" es útil para observar la variación de los datos a lo largo del tiempo. El atributo "Sentiment" sirve para determinar si un mensaje expresa un sentimiento positivo, neutro o negativo en algún grado. Esta determinación puede cambiar en el proyecto dependiendo del criterio ocupado.
+
+Para conservar la utilidad y no infringir la privacidad de los emisores de los mensajes, los valores de los atributos "UserName" y "ScreenName" fueron reemplazados por códigos.
+
 
 # Exploración de datos
 El objetivo de esta sección es describir la base de datos seleccionadas, mostrando estadísticas de resumen, gráficos relevantes para la descripción y un breve análisis sobre estos.
@@ -40,7 +43,7 @@ library(tidyverse)
 library(tidytext)
 ```
 
-A continuación se procece a cargar la base de datos extraída desde [insertar link de donde se obtuvo] para poder realizar el análisis respectivo.
+A continuación se procede a cargar la base de datos extraída desde https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_test.csv y https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_train.csv para poder realizar el análisis respectivo.
 
 ```{r}
 train  <- read.csv("data/Corona_NLP_train.csv", encoding="Latin-1")
@@ -54,7 +57,7 @@ Tal y como se mencionó anteriormente, esta base de datos contiene 6 columnas y 
 head(df)
 ```
 
-Para poder trabajar con los datos es necesario covnertir algunos formatos de las variables, en particular en este caso, se procede a transformar las variables "TweetAt" a un formato de fecha, dado que corresponde al momento en donde se realizó el tweet, y la variable "OriginalTweet" que corresponde al contenido del tweet realizado.
+Para poder trabajar con los datos es necesario transformar algunos formatos de las variables, en particular en este caso, se procede a transformar las variables "TweetAt" a un formato de fecha, dado que corresponde al momento en donde se realizó el tweet, y la variable "OriginalTweet" que corresponde al contenido del tweet realizado.
 
 ```{r}
 df$TweetAt <- as.Date(df$TweetAt, format="%d-%m-%y")
@@ -80,9 +83,9 @@ ggplot(data=df, aes(x=TweetAt)) + geom_histogram(position="identity", bins=30) +
        y = "número de tweets") + theme_bw()
 ```
 
-Un comportamiento particular de los datos es que a finales de marzo la cantidad de tweets registrados disminiye considerablemente llegando a ser nulo, mientras que la mayor cantidad de tweets se encuentra concentrada durante la tercera semana de marzo y la segunda semana de abril.
+Un comportamiento particular de los datos es que a finales de marzo la cantidad de tweets registrados disminuye considerablemente llegando a ser nulo, mientras que la mayor cantidad de tweets se encuentra concentrada durante la tercera semana de marzo y la segunda semana de abril.
 
-Un campo importante que posee esta base de datos es la columna "Sentiment", la cual representa el sentimiento asociado al tweet registrado. A continuación se la cantidad de tweets por cada tipo de sentimiento ("Extremely Negative", "Extremely Postive", "Negative", "Neutral", "Positive") durante el periodo regisreado en el set de datos.
+Un campo importante que posee esta base de datos es la columna "Sentiment", la cual representa el sentimiento asociado al tweet registrado. A continuación se muestra la cantidad de tweets por cada tipo de sentimiento ("Extremely Negative", "Extremely Postive", "Negative", "Neutral", "Positive") durante el periodo regisreado en el set de datos.
 ```{r}
 tweets_mes_dia <- df %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
 tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
@@ -95,18 +98,18 @@ tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
         legend.position = "bottom")
 ```
 
-Se puede observar en este último gráfico que en general aquellos sentimientos que prevalecen son los de "Positive" y "Negative". Por otro lado, todos los tipos de sentimientos registrados tienen un comportamiento similar de crecimiento en el tiempo. El sentimiento menos registrados en el tiempo en general corresponde al de "Extremely Negative", lo cual es interesante dado el contexto de la base de datos, en donde se esperaría que hubiese una mayor cantidad de tweets asociado a un sentimiento negativo o extramademente negativo.
+Se puede observar en este último gráfico que en general aquellos sentimientos que prevalecen son los de "Positive" y "Negative". Por otro lado, todos los tipos de sentimientos registrados tienen un comportamiento similar de crecimiento en el tiempo. El sentimiento menos registrados en el tiempo en general corresponde al de "Extremely Negative", lo cual es interesante dado el contexto de la base de datos, en donde se esperaría que hubiese una mayor cantidad de tweets asociado a un sentimiento extramademente negativo.
 
 En el siguiente gráfico se puede observar la cantidad de tweets por cada tipo de sentimiento durante todo el periodo de observación.
 ```{r}
-# library(tidyverse)
+#library(tidyverse)
 #tweets_sentiment <- df %>% group_by(Sentiment) %>% summarise(n = n())
 df %>% ggplot(aes(x = Sentiment)) + geom_bar(stat="count") + coord_flip() + theme_bw()
 ```
 
 Se observa que tal y como se mencionó anteriormente, los sentimientos que destacan son "Positive" y "Negative", alcanzando un total aproximado de 13000 y 11000 tweets respectivamente. El sentimiento con una menor cantidad de registros es "Extremely Negative", con un aproximado de 6000 tweets. 
 
-Si se comparación la proporción de estos tweets en comparación al total del periodo de observación, se tiene que el porcentaje asociado a cada sentimiento son los siguientes:
+Si se compara la proporción de estos tweets con el total del periodo de observación, se tiene que el porcentaje asociado a cada sentimiento son los siguientes:
 
 ```{r}
 df %>% group_by(Sentiment) %>% summarise(Proporcion = n()/nrow(df)) %>% arrange(-Proporcion)
@@ -114,7 +117,6 @@ df %>% group_by(Sentiment) %>% summarise(Proporcion = n()/nrow(df)) %>% arrange(
 
 Es decir, el sentimiento "Positive" representa al 27,5% de los tweets del set de datos, mientras que el 13,5% de los tweets están categorizados bajo el sentimiento "Extremely Negative".
 
-Otro punto importante a caracterizar es la locación en donde se emiten los tweets. En la siguiente tabla, se puede observar la cantidad total de tweets registrados para el top 10 de locaciones.
 
 ```{r}
 top_10 <- df %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
@@ -159,7 +161,7 @@ tweets <- df %>% mutate(texto_vector = map(.x = OriginalTweet, .f = limpiar_text
 tweets %>% select(texto_vector) %>% head()
 ```
 ```{r}
-#Cada valor de la columna texto_vector es un vector con cada palabara del textos
+#Cada valor de la columna texto_vector es un vector con cada palabra del texto
 tweets$texto_vector[1]
 ```
 ```{r}
