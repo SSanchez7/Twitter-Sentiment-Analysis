@@ -105,8 +105,6 @@ Se puede observar en este último gráfico que en general aquellos sentimientos 
 
 En el siguiente gráfico se puede observar la cantidad de tweets por cada tipo de sentimiento durante todo el periodo de observación.
 ```{r}
-# library(tidyverse)
-#tweets_sentiment <- df %>% group_by(Sentiment) %>% summarise(n = n())
 df %>% ggplot(aes(x = Sentiment)) + geom_bar(stat="count") + coord_flip() + theme_bw()
 ```
 
@@ -131,6 +129,8 @@ top_10
 
 En esta última tabla se puede observar que un 20% de los tweets no registran alguna locación, mientras que del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India.
 
+Antes de pasar a analizar los comentarios (Tweets), se limpian y formatean en un nuevo texto con sus palabras representativas separadas en un arreglo.
+
 ```{r}
 limpiar_texto <- function(texto){
     # Se convierte todo el texto a minúsculas
@@ -152,11 +152,12 @@ limpiar_texto <- function(texto){
 }
 ```
 
+Se realiza una prueba de que el proceso de limpieza es realizado con exito.
 ```{r}
 text = "Hola mi nombre es https://www.google.cl. Como. no sé xd6666 ASDA"
 limpiar_texto(text)
 ```
-
+Entonces se aplica el mismo procedimiento a los textos del dataset original.
 ```{r}
 tweets <- df %>% mutate(texto_vector = map(.x = OriginalTweet, .f = limpiar_texto))
 ```
@@ -164,8 +165,9 @@ tweets <- df %>% mutate(texto_vector = map(.x = OriginalTweet, .f = limpiar_text
 ```{r}
 tweets %>% select(texto_vector) %>% head()
 ```
+
+En donde cada valor de la columna texto_vector es un vector con cada palabara del textos
 ```{r}
-#Cada valor de la columna texto_vector es un vector con cada palabara del textos
 tweets$texto_vector[1]
 ```
 ```{r}
@@ -196,10 +198,17 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
   coord_flip()
 ```
+Se puede observar que, como era de esperarse, las palabras mas comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena
+Se representa la misma idea anterior, de ver las palabras mas populares por sentimiento, esta vez en word clouds
+
 ```{r}
+pal_neg <- c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#A50F15")
+pal_neu <- c("#A1D99B", "#74C476", "#41AB5D", "#238B45", "#006D2C")
+pal_pos <- c("#9ECAE1", "#6BAED6", "#4292C6", "#2171B5", "#08519C")
 
 top <- 400
 ```
+
 
 ```{r}
 #Palabras mas repetidas en comentarios negativos y extremadamente negativos
@@ -210,8 +219,9 @@ neg_tweets_top <- neg_tweets%>%
   arrange(desc(n)) %>%
   top_n(top,n) 
 
+
 set.seed(1234)
-wordcloud(words = neg_tweets_top$word, scale=c(5,0.7), freq = neg_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=palette(brewer.pal(9,"Reds"))[4:8], fixed.asp = TRUE)
+wordcloud(words = neg_tweets_top$word, scale=c(5,0.7), freq = neg_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_neg)
 ```
 
 ```{r}
@@ -225,7 +235,7 @@ neu_tweets_top <- neu_tweets%>%
   
 
 set.seed(1234)
-wordcloud(words = neu_tweets_top$word, scale=c(5,0.7), freq = neu_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=palette(brewer.pal(9,"Greens"))[4:8], fixed.asp = TRUE)
+wordcloud(words = neu_tweets_top$word, scale=c(5,0.7), freq = neu_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_neu, fixed.asp = TRUE)
 ```
 
 ```{r}
@@ -237,8 +247,9 @@ pos_tweets_top <- pos_tweets%>%
   arrange(desc(n)) %>%
   top_n(top,n) 
 
+
 set.seed(1234)
-wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=palette(brewer.pal(9,"Blues"))[4:8], fixed.asp = TRUE)
+wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_pos, fixed.asp = TRUE)
 ```
 
 ```{r}
