@@ -126,7 +126,7 @@ Es decir, el sentimiento "Positive" representa al 27,5% de los tweets del set de
 Otro punto importante a caracterizar es la locación en donde se emiten los tweets. En la siguiente tabla, se puede observar la cantidad total de tweets registrados para el top 10 de locaciones.
 
 ```{r}
-top_10 <- df %>% filter(Location!="") %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
+top_10 <- df %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
 top_10 <- top_10[1:10,]
 top_10$N <- round(top_10$N,4)
   top_10 %>% ggplot(aes(x=reorder(Location,N), y =N )) + 
@@ -136,7 +136,7 @@ top_10$N <- round(top_10$N,4)
   theme_bw() 
 ```
 
-En esta última tabla se puede observar que un 20% de los tweets no registran alguna locación, mientras que del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India.
+En este último gráfico se puede observar que un 20% de los tweets no registran alguna locación, mientras que del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India.
 
 Antes de pasar a analizar los comentarios (Tweets), se limpian y formatean en un nuevo texto con sus palabras representativas separadas en un arreglo.
 
