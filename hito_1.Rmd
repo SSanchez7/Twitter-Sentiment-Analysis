@@ -12,11 +12,13 @@ output:
 ---
 # Introducción
 
-Lo que escribio yessenia
-
-Motivación
+Lo que escribio yessenia(agregué mas cosas, seba)
 
 Motivacion:
+
+Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en usuarios diarios con respecto al año 2019, siendo una de sus principales casuas la pandemia del COVID-19. Es por esto que analizar datos de twitter se hace interesante, ya que se puede obtener información en tiempo de real de sucesos que están ocurriendo, y con el avance de la minería de datos y la facilidad con la que se pueden manipular grandes volúmenes de información, nace la motivación por explorar tweets del coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos.
+
+Dicho lo anterior, los puntos claves que se entablaron en conversaciones de equipo fueron los siguientes:
 
 - Identificar como se relaciona el sentimiento identificado con el contexto pais (segun mayor o menor presencia del sentimiento).
 - Categorizar paises segun mayor o menor presencia de sentimiento.
