@@ -35,11 +35,15 @@ Acá describir un poco de qué se trata la base de datos
 El objetivo de esta sección es describir la base de datos seleccionadas, mostrando estadísticas de resumen, gráficos relevantes para la descripción y un breve análisis sobre estos.
 
 El primer paso consiste en cargar todas las librerías que se utilizarán en este trabajo, las cuales permiten realizar gráficos y trabajar con los datos de una forma más simple y eficiente.
+
 ```{r, message = F, warning=F}
 library(ggplot2)
 library(dplyr)
 library(tidyverse)
 library(tidytext)
+library(RColorBrewer)
+library(wordcloud)
+library(wordcloud2)
 ```
 
 A continuación se procece a cargar la base de datos extraída desde [insertar link de donde se obtuvo] para poder realizar el análisis respectivo.
@@ -193,9 +197,7 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   coord_flip()
 ```
 ```{r}
-require(RColorBrewer)
-require(wordcloud)
-require(wordcloud2)
+
 top <- 400
 ```
 
@@ -208,8 +210,8 @@ neg_tweets_top <- neg_tweets%>%
   arrange(desc(n)) %>%
   top_n(top,n) 
 
-wordcloud(head(neg_tweets_top$word, 100), head(neg_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-wordcloud2(data=neg_tweets_top, size=1.6, color='random-dark')
+set.seed(1234)
+wordcloud(words = neg_tweets_top$word, scale=c(5,0.7), freq = neg_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=palette(brewer.pal(9,"Reds"))[4:8], fixed.asp = TRUE)
 ```
 
 ```{r}
@@ -222,8 +224,8 @@ neu_tweets_top <- neu_tweets%>%
   top_n(top,n) 
   
 
-wordcloud(head(neu_tweets_top$word, 100), head(neu_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-wordcloud2(data=neu_tweets_top, size=1.6, color='random-dark')
+set.seed(1234)
+wordcloud(words = neu_tweets_top$word, scale=c(5,0.7), freq = neu_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=palette(brewer.pal(9,"Greens"))[4:8], fixed.asp = TRUE)
 ```
 
 ```{r}
@@ -235,8 +237,8 @@ pos_tweets_top <- pos_tweets%>%
   arrange(desc(n)) %>%
   top_n(top,n) 
 
-wordcloud(head(pos_tweets_top$word, 100), head(pos_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-wordcloud2(data=pos_tweets_top, size=1.6, color='random-dark')
+set.seed(1234)
+wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=palette(brewer.pal(9,"Blues"))[4:8], fixed.asp = TRUE)
 ```
 
 ```{r}
@@ -245,9 +247,6 @@ require(stringr)
 cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
 cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
 cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
-```
-```{r}
-#Revisar Hashtags mas populares
 ```
 
 ```{r}
