@@ -27,7 +27,7 @@ Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto so
 
 # Descripción de base de datos
 
-La base  de datos esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. El sentimiento asignado a cada Tweet fue realizada de forma manual por el propietario de la base de datos.
+La base  de datos esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. La asignacion de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos.
 
 
 # Exploración de datos
