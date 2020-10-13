@@ -69,6 +69,7 @@ Para poder trabajar con los datos es necesario transformar  algunos formatos de 
 ```{r}
 df$TweetAt <- as.Date(df$TweetAt, format="%d-%m-%y")
 df$OriginalTweet <- as.character(df$OriginalTweet)
+df$Location <- as.character(df$Location)
 ```
 
 Los formatos de cada variable del set de datos son mostrados a continuación:
@@ -125,10 +126,14 @@ Es decir, el sentimiento "Positive" representa al 27,5% de los tweets del set de
 Otro punto importante a caracterizar es la locación en donde se emiten los tweets. En la siguiente tabla, se puede observar la cantidad total de tweets registrados para el top 10 de locaciones.
 
 ```{r}
-top_10 <- df %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
+top_10 <- df %>% filter(Location!="") %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
 top_10 <- top_10[1:10,]
 top_10$N <- round(top_10$N,4)
-top_10
+  top_10 %>% ggplot(aes(x=reorder(Location,N), y =N )) + 
+    geom_bar(stat="identity") + 
+  coord_flip() + 
+  labs(x="Pais", y = "Proporción del total de tweets", title="Top-10 locaciones con más tweets") +
+  theme_bw() 
 ```
 
 En esta última tabla se puede observar que un 20% de los tweets no registran alguna locación, mientras que del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India.
@@ -186,7 +191,7 @@ head(tweets_expand)
 library(stopwords)
 # "word" %in% vector -> true or false
 lista_stopwords <- stopwords("english")
-lista_stopwords <- c(lista_stopwords, "amp","can")
+lista_stopwords <- c(lista_stopwords, "amp","can","cant")
 ```
 
 ```{r}
@@ -199,9 +204,10 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   arrange(Sentiment, desc(n)) %>% 
   ggplot(aes(x=reorder(word,n),y=n,fill=Sentiment)) + 
   geom_col() + 
-  labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
+  labs(y = "Frecuencia", x = "Palabras mas repetidas") + 
   coord_flip()
 ```
+
 Se puede observar que, como era de esperarse, las palabras mas comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena
 Se representa la misma idea anterior, de ver las palabras mas populares por sentimiento, esta vez en word clouds
 
