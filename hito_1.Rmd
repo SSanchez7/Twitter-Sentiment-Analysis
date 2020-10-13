@@ -10,27 +10,24 @@ output:
   pdf_document:
     toc: yes
 ---
-# Introducción
 
-Lo que escribio yessenia(agregué mas cosas, seba)
 
-Motivacion:
+# Motivacion:
 
-Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en usuarios diarios con respecto al año 2019, siendo una de sus principales casuas la pandemia del COVID-19. Es por esto que analizar datos de twitter se hace interesante, ya que se puede obtener información en tiempo de real de sucesos que están ocurriendo, y con el avance de la minería de datos y la facilidad con la que se pueden manipular grandes volúmenes de información, nace la motivación por explorar tweets del coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos.
+Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en comentarios diarios con respecto al año 2019, siendo una de sus principales causas la pandemia del COVID-19. 
+Es por esta razon,  que analizar datos de twitter se hace interesante, pues se puede obtener información en tiempo de real de sucesos que están ocurriendo, y haciendo uso de la minería de datos y la facilidad con la que se pueden manipular grandes volúmenes de información, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ultimo influencia la percepcion de las personas acerca de la pandemia.
 
-Dicho lo anterior, los puntos claves que se entablaron en conversaciones de equipo fueron los siguientes:
+Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto son:
 
 - Identificar como se relaciona el sentimiento identificado con el contexto pais (segun mayor o menor presencia del sentimiento).
-- Categorizar paises segun mayor o menor presencia de sentimiento.
-- Revisar indices de felicidad.
-- Identificar palabras que son clave a la hora de definir el sentimiento : Mascarilla, cuarentena...
-- Usar algoritmos para predecir sentimientos de forma sistematizada.
-- Entrenar modelos predecitivos en base a tweets y accuracy. BD de entrenamiento y BD extra.
+- Categorizar paises segun mayor o menor presencia de sentimiento y relacionarlos con algun indice de felicidad publicado en el ultimo año.
+-Identificar palabras que son clave a la hora de categorizar el sentimiento.
+- Establecer algoritmos para predecir sentimientos de forma sistematizada.
+- Entrenar modelos predecitivos en base a tweets usando un Dataset de entrenamiento y un dataset de evaluacion.
 
 # Descripción de base de datos
 
-Acá describir un poco de qué se trata la base de datos
-
+La base  de datos esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 
 # Exploración de datos
 El objetivo de esta sección es describir la base de datos seleccionadas, mostrando estadísticas de resumen, gráficos relevantes para la descripción y un breve análisis sobre estos.
 
