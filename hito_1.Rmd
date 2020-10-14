@@ -256,6 +256,13 @@ cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 
 # Propuesta de hipótesis
 
+A partir del análisis exploratorio se proponen las siguientes hipótesis y preguntas que se podrían abordar con este set de datos:
+
+1. Hipótesis/pregunta
+2. Hipótesis/pregunta
+3. Hipótesis/pregunta
+4. Hipótesis/pregunta
+
 # Referencias
 
 [1] Twitter suma 166 millones de usuarios durante el Coronavirus. (2020, 3 junio). REBOLD, Data-Driven Marketing & Communication. https://letsrebold.com/es/blog/twitter-suma-166-millones-de-usuarios-frente-al-coronavirus/#:%7E:text=Asimismo%2C%20Twitter%20comunic%C3%B3%20en%20la,el%20primer%20trimestre%20de%202019.
