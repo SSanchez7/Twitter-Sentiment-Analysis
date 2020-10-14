@@ -297,7 +297,9 @@ A partir del análisis exploratorio se proponen las siguientes hipótesis y preg
 
 5. ¿Se puede asociar un sentimiento a una palabra dependiendo de las otras palabras mencionadas en un tweet?
 
-6. ¿Existe un alza o descenso de comentarios positivos al avanzar de los dìas?¿Si es asì, a què se debe?
+6. ¿Existe un alza o descenso de comentarios positivos al avanzar de los días?¿Si es así, a quí se debe?
+
+7. ¿Podemos generar un clasificador que se pueda generalizar en base a los datos que tenemos?
 
 # Referencias
 
