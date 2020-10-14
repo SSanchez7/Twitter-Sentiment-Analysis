@@ -28,7 +28,7 @@ Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto so
 
 # Descripción de base de datos
 
-La base  de datos, extraída desde la plataforma *Kaggle*[2], esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. La asignacion de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos.
+La base  de datos, extraída desde la plataforma *Kaggle*[2], esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. La asignacion de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos. Esta variable de sentimiento sería un punto de comparación para un posible modelo de clasifiación de los sentimientos de los tweets.
 
 
 # Exploración de datos
@@ -129,6 +129,8 @@ top_10
 
 En esta última tabla se puede observar que un 20% de los tweets no registran alguna locación, mientras que del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India.
 
+Para poder analizar los contenidos de los tweets es necesario realizar una limpieza y normalización de estos. A continuación se crea una función que permite corregir algunos patrones de los textos tales como números, puntuación y espacios en blanco.
+
 ```{r}
 limpiar_texto <- function(texto){
     # Se convierte todo el texto a minúsculas
@@ -150,10 +152,14 @@ limpiar_texto <- function(texto){
 }
 ```
 
+Para entender como procede esta última función, en la siguiente línea se muestra un ejemplo junto con los resultados de la aplicación de esta, en donde se puede observar que se extrajo cada palabra del objeto *text*.
+
 ```{r}
 text = "Hola mi nombre es https://www.google.cl. Como. no sé xd6666 ASDA"
 limpiar_texto(text)
 ```
+
+En el siguiente paso, se aplica la función *limpiar_texto* al contenido de los tweets de la base de datos, en donde cada resultado de cada tweet es almacenado en un vector de palabras, por lo que cada tweet tendría asociado uno de estos vectores.
 
 ```{r}
 tweets <- df %>% mutate(texto_vector = map(.x = OriginalTweet, .f = limpiar_texto))
@@ -258,8 +264,8 @@ cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 
 A partir del análisis exploratorio se proponen las siguientes hipótesis y preguntas que se podrían abordar con este set de datos:
 
-1. Hipótesis/pregunta
-2. Hipótesis/pregunta
+1. ¿El sentimiento general sobre el COVID-19 varía por la locación registrada?
+2. Dada las características del COVID-19 y sus consecuencias, más del 50% de los tweets están asociados a un sentimiento negativo o extremadamente negativo.
 3. Hipótesis/pregunta
 4. Hipótesis/pregunta
 
