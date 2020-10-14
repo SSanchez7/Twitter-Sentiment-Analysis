@@ -275,3 +275,12 @@ A partir del análisis exploratorio se proponen las siguientes hipótesis y preg
 
 [2] Coronavirus tweets NLP - Text Classification. (2020, 8 septiembre). Kaggle. https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_test.csv
 
+
+# Contribuciones del equipo
+1. Nicolás Herrera:
+2. Yesenia Marulanda:
+3. Franco Migliorelli:
+4. Samuel Sánchez:
+5. Sebastián Urbina:
+
+
