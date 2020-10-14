@@ -223,6 +223,7 @@ top <- 400
 
 ```{r}
 #Palabras mas repetidas en comentarios negativos y extremadamente negativos
+most_frec <- c("covid","coronavirus","supermarket","grocery","store")
 neg_tweets <- tweets_expand %>% 
   filter(Sentiment == "Negative" | Sentiment == "Extremely Negative") %>%
   count(word)
@@ -314,5 +315,4 @@ A partir del análisis exploratorio se proponen las siguientes hipótesis y preg
 3. Franco Migliorelli:
 4. Samuel Sánchez:
 5. Sebastián Urbina:
-
 
