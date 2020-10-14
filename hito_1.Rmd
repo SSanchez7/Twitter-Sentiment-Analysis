@@ -180,12 +180,15 @@ tweets_expand <- tweets %>% select(-OriginalTweet) %>% unnest()
 tweets_expand <- tweets_expand %>% rename(word = texto_vector)
 head(tweets_expand) 
 ```
+Se utilizan *stopwords* para filtrar algunas palabras propias del ingles (lenguaje dominio de los comentario) como artículos, pronombres, preposiciones, adverbios e incluso algunos verbos. Estas palabras no tienen un significado por si solas, sino que modifican o acompañan a otras
 
 ```{r}
 # "word" %in% vector -> true or false
 lista_stopwords <- stopwords("english")
 lista_stopwords <- c(lista_stopwords, "amp","can")
 ```
+
+Luego se representa en un grafico de barras, las 10 palabras mas repetidas en los comentarios segun el sentimiento que poseia en contexto del tweet
 
 ```{r}
 tweets_expand <- tweets_expand %>% filter(!(word %in% lista_stopwords)) 
@@ -197,14 +200,16 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   arrange(Sentiment, desc(n)) %>% 
   ggplot(aes(x=reorder(word,n),y=n,fill=Sentiment)) + 
   geom_col() + 
-  labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
+  labs(y = "Frecuencia", x = "Palabras mas repetidas") + 
   coord_flip()
 ```
 
-Se puede observar que, como era de esperarse, las palabras mas comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena
-Se representa la misma idea anterior, de ver las palabras mas populares por sentimiento, esta vez en word clouds
+Se puede observar que, como era de esperarse, las palabras mas comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena.
+
+Se representa la misma idea anterior, de ver las palabras mas populares por sentimiento, esta vez en word clouds:
 
 ```{r}
+#Listas de colores utilizadas en las nubes de palabras
 pal_neg <- c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#A50F15")
 pal_neu <- c("#A1D99B", "#74C476", "#41AB5D", "#238B45", "#006D2C")
 pal_pos <- c("#9ECAE1", "#6BAED6", "#4292C6", "#2171B5", "#08519C")
@@ -253,22 +258,23 @@ pos_tweets_top <- pos_tweets%>%
 set.seed(1234)
 wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_pos, fixed.asp = TRUE)
 ```
+Se puede destacar que el tipo de palabras utilizadas en los 3 contextos de sentimiento (negativo, neutral y positivo) no varia en gran manera, repitiendose tipicamente las mismas dentro de las mas populares: "covid", "coronavirus", "supermarket", "food", "prices", "store" y "grocery".
 
-En base a los datos obtenidos categorizados por sentimiento, puede analizarse tambien el largo promedio de sus palabras, y asi ver si existe alguna relacion entre esas variables. 
+En base a los datos obtenidos categorizados por sentimiento, puede analizarse tambien el largo promedio de sus palabras, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento.
   
 ```{r}
 #Promedio en el largo de palabras por sentimiento. (Intentar hacerlos todos en un unico grafico)
 library(stringr)
 
-boxplot(str_length(neg_tweets$word),xlab = "Negative Sentiment", ylab = "Length", main="Largo palabras en comentario negativos")
-boxplot(str_length(neu_tweets$word),xlab = "Neutral Sentiment", ylab = "Length", main="Largo palabras en comentario neutrales")
-boxplot(str_length(pos_tweets$word),xlab = "Positive Sentiment", ylab = "Length", main="Largo palabras en comentario positivos")
+boxplot(str_length(neg_tweets$word),xlab = "Negative Sentiment", ylab = "Length", main="Largo palabras en comentarios negativos")
+boxplot(str_length(neu_tweets$word),xlab = "Neutral Sentiment", ylab = "Length", main="Largo palabras en comentarios neutrales")
+boxplot(str_length(pos_tweets$word),xlab = "Positive Sentiment", ylab = "Length", main="Largo palabras en comentarios positivos")
 cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
 cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
 cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 ```
 
-Se puede observar que el largo de las palabras no parece ser determinante para el valor de sentimiento del comentario en general, pues e promedio todas miden igual
+Se puede observar que el largo de las palabras no parece ser determinante para el valor de sentimiento del comentario en general, pues en promedio todas miden muy parecido: aproximadamente 8 caracteres.
 
 # Propuesta de hipótesis
 
@@ -276,7 +282,7 @@ A partir del análisis exploratorio se proponen las siguientes hipótesis y preg
 
 1. ¿El sentimiento general sobre el COVID-19 varía por la locación registrada?
 2. Dada las características del COVID-19 y sus consecuencias, más del 50% de los tweets están asociados a un sentimiento negativo o extremadamente negativo.
-3. Hipótesis/pregunta
+3. ¿Existe alguna relacion entre el largo promedio de las palabras utilizadas en comentarios, y el sentimiento asociado al tweet de donde provino?
 4. Hipótesis/pregunta
 
 # Referencias
