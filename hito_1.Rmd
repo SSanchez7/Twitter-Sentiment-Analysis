@@ -44,7 +44,7 @@ library(tidytext)
 library(stopwords)
 ```
 
-A continuación se procece a cargar la base de datos extraída desde https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_test.csv , para poder realizar el análisis respectivo.
+A continuación se procece a cargar la base de datos para poder realizar el análisis respectivo.
 
 ```{r}
 train  <- read.csv("data/Corona_NLP_train.csv", encoding="Latin-1")
