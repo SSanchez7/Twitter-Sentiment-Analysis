@@ -40,8 +40,9 @@ library(ggplot2)
 library(dplyr)
 library(tidyverse)
 library(tidytext)
-#Utilizaremos la librería de stopwords para obtener palabras que no aportar información
 library(stopwords)
+library(wordcloud)
+library(wordcloud2)
 ```
 
 A continuación se procece a cargar la base de datos para poder realizar el análisis respectivo.
@@ -164,7 +165,6 @@ En el siguiente paso, se aplica la función *limpiar_texto* al contenido de los 
 ```{r}
 tweets <- df %>% mutate(texto_vector = map(.x = OriginalTweet, .f = limpiar_texto))
 ```
-
 ```{r}
 tweets %>% select(texto_vector) %>% head()
 ```
@@ -172,6 +172,8 @@ tweets %>% select(texto_vector) %>% head()
 #Cada valor de la columna texto_vector es un vector con cada palabara del textos
 tweets$texto_vector[1]
 ```
+
+En donde cada valor de la columna texto_vector es un vector con cada palabara del texto
 ```{r}
 #unnest() nos permite realizar una expansión de los vectores de palabras que creamos, esto aumenta la dimension de filas considerablemente
 tweets_expand <- tweets %>% select(-OriginalTweet) %>% unnest()
@@ -198,10 +200,15 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
   coord_flip()
 ```
-```{r, message = F, warning=F}
-require(RColorBrewer)
-require(wordcloud)
-require(wordcloud2)
+
+Se puede observar que, como era de esperarse, las palabras mas comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena
+Se representa la misma idea anterior, de ver las palabras mas populares por sentimiento, esta vez en word clouds
+
+```{r}
+pal_neg <- c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#A50F15")
+pal_neu <- c("#A1D99B", "#74C476", "#41AB5D", "#238B45", "#006D2C")
+pal_pos <- c("#9ECAE1", "#6BAED6", "#4292C6", "#2171B5", "#08519C")
+
 top <- 400
 ```
 
@@ -214,8 +221,9 @@ neg_tweets_top <- neg_tweets%>%
   arrange(desc(n)) %>%
   top_n(top,n) 
 
-wordcloud(head(neg_tweets_top$word, 100), head(neg_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-wordcloud2(data=neg_tweets_top, size=1.6, color='random-dark')
+
+set.seed(1234)
+wordcloud(words = neg_tweets_top$word, scale=c(5,0.7), freq = neg_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_neg)
 ```
 
 ```{r}
@@ -228,8 +236,8 @@ neu_tweets_top <- neu_tweets%>%
   top_n(top,n) 
   
 
-wordcloud(head(neu_tweets_top$word, 100), head(neu_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-wordcloud2(data=neu_tweets_top, size=1.6, color='random-dark')
+set.seed(1234)
+wordcloud(words = neu_tweets_top$word, scale=c(5,0.7), freq = neu_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_neu, fixed.asp = TRUE)
 ```
 
 ```{r}
@@ -241,24 +249,26 @@ pos_tweets_top <- pos_tweets%>%
   arrange(desc(n)) %>%
   top_n(top,n) 
 
-wordcloud(head(pos_tweets_top$word, 100), head(pos_tweets_top$n, 100), random.order=FALSE, colors=brewer.pal(8, "Dark2"))
-wordcloud2(data=pos_tweets_top, size=1.6, color='random-dark')
+
+set.seed(1234)
+wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_pos, fixed.asp = TRUE)
 ```
 
+En base a los datos obtenidos categorizados por sentimiento, puede analizarse tambien el largo promedio de sus palabras, y asi ver si existe alguna relacion entre esas variables. 
+  
 ```{r}
-#Promedio en el largo de palabras por sentimiento.
-require(stringr)
+#Promedio en el largo de palabras por sentimiento. (Intentar hacerlos todos en un unico grafico)
+library(stringr)
+
+boxplot(str_length(neg_tweets$word),xlab = "Negative Sentiment", ylab = "Length", main="Largo palabras en comentario negativos")
+boxplot(str_length(neu_tweets$word),xlab = "Neutral Sentiment", ylab = "Length", main="Largo palabras en comentario neutrales")
+boxplot(str_length(pos_tweets$word),xlab = "Positive Sentiment", ylab = "Length", main="Largo palabras en comentario positivos")
 cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
 cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
 cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 ```
-```{r}
-#Revisar Hashtags mas populares
-```
 
-```{r}
-#N-grams (?)
-```
+Se puede observar que el largo de las palabras no parece ser determinante para el valor de sentimiento del comentario en general, pues e promedio todas miden igual
 
 # Propuesta de hipótesis
 
