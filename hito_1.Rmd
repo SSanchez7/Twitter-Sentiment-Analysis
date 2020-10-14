@@ -14,8 +14,9 @@ output:
 
 # Motivacion:
 
-Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en comentarios diarios con respecto al año 2019, siendo una de sus principales causas la pandemia del COVID-19. 
-Es por esta razon,  que analizar datos de twitter se hace interesante, pues se puede obtener información en tiempo de real de sucesos que están ocurriendo, y haciendo uso de la minería de datos y la facilidad con la que se pueden manipular grandes volúmenes de información, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ultimo influencia la percepcion de las personas acerca de la pandemia.
+Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en comentarios diarios con respecto al año 2019 [1], siendo una de sus principales causas la pandemia del COVID-19. 
+
+Es por esta razón,  que analizar datos de twitter se hace interesante, pues se puede obtener información en tiempo de real de sucesos que están ocurriendo, y haciendo uso de la minería de datos y la facilidad con la que se pueden manipular grandes volúmenes de información, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ultimo influencia la percepcion de las personas acerca de la pandemia.
 
 Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto son:
 
@@ -27,7 +28,7 @@ Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto so
 
 # Descripción de base de datos
 
-La base  de datos esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. La asignacion de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos.
+La base  de datos, extraída desde la plataforma *Kaggle*[2], esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. La asignacion de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos.
 
 
 # Exploración de datos
@@ -39,6 +40,8 @@ library(ggplot2)
 library(dplyr)
 library(tidyverse)
 library(tidytext)
+#Utilizaremos la librería de stopwords para obtener palabras que no aportar información
+library(stopwords)
 ```
 
 A continuación se procece a cargar la base de datos extraída desde https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_test.csv , para poder realizar el análisis respectivo.
@@ -171,8 +174,6 @@ head(tweets_expand)
 ```
 
 ```{r}
-#Utilizaremos la librería de stopwords para obtener palabras que no aportar información
-library(stopwords)
 # "word" %in% vector -> true or false
 lista_stopwords <- stopwords("english")
 lista_stopwords <- c(lista_stopwords, "amp","can")
@@ -191,7 +192,7 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   labs(y = "Frecuencia", x = "Ppalabras mas repetidas") + 
   coord_flip()
 ```
-```{r}
+```{r, message = F, warning=F}
 require(RColorBrewer)
 require(wordcloud)
 require(wordcloud2)
@@ -253,4 +254,11 @@ cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 #N-grams (?)
 ```
 
+# Propuesta de hipótesis
+
+# Referencias
+
+[1] Twitter suma 166 millones de usuarios durante el Coronavirus. (2020, 3 junio). REBOLD, Data-Driven Marketing & Communication. https://letsrebold.com/es/blog/twitter-suma-166-millones-de-usuarios-frente-al-coronavirus/#:%7E:text=Asimismo%2C%20Twitter%20comunic%C3%B3%20en%20la,el%20primer%20trimestre%20de%202019.
+
+[2] Coronavirus tweets NLP - Text Classification. (2020, 8 septiembre). Kaggle. https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_test.csv
 
