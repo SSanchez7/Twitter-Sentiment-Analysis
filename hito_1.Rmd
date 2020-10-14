@@ -3,11 +3,11 @@ title: "Proyecto semestral: Hito 1"
 author: "Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez, Sebastián Urbina"
 date: "Octubre 2020"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     number_sections: yes
     theme: spacelab
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -43,6 +43,7 @@ library(tidytext)
 library(stopwords)
 library(wordcloud)
 library(wordcloud2)
+library(stringr)
 ```
 
 A continuación se procece a cargar la base de datos para poder realizar el análisis respectivo.
@@ -265,22 +266,14 @@ wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, 
 
 Se puede destacar que el tipo de palabras utilizadas en los 3 contextos de sentimiento (negativo, neutral y positivo) no varia en gran manera, repitiendose tipicamente las mismas dentro de las mas populares: "covid", "coronavirus", "supermarket", "food", "prices", "store" y "grocery". Dejando de lado la palabra "covid" las palabras mas repetidas se relacionan con el abastecimiento de productos basicos, lo que permite inferir de forma preliminar que este tema fue relevante para los usuarios durante la pandemia (entre marzo y abril).
 
-En base a los datos obtenidos categorizados por sentimiento, puede analizarse numero promedio de sus palabras, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento.
+En base a los datos obtenidos categorizados por sentimiento, puede analizarse su largo promedio, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento.
   
 ```{r}
-#Promedio en el largo de palabras por sentimiento. (Intentar hacerlos todos en un unico grafico)
-library(stringr)
+#Promedio en el largo de palabras por sentimiento.
 
-ggplot(tweets_expand, aes(x=Sentiment, y =str_length(word) )) + geom_boxplot() + 
-  scale_y_continuous(limits=c(0,15))
+ggplot(tweets, aes(x=Sentiment, y =str_length(OriginalTweet) ),) + geom_boxplot() + labs(y = "Largo", title= "Distribucion del largo de tweets por sentimiento")
 
 ggsave(plot = last_plot(), width = 10, height = 10, dpi = 300, filename = "boxplot_len_words.png")
-#boxplot(str_length(neg_tweets$word),xlab = "Negative Sentiment", ylab = "Length", main="Largo palabras en comentarios negativos")
-#boxplot(str_length(neu_tweets$word),xlab = "Neutral Sentiment", ylab = "Length", main="Largo palabras en comentarios neutrales")
-#boxplot(str_length(pos_tweets$word),xlab = "Positive Sentiment", ylab = "Length", main="Largo palabras en comentarios positivos")
-#cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
-#cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
-#cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 ```
 
 Se puede observar que el largo de las palabras no parece ser determinante para el valor de sentimiento del comentario en general, pues en promedio todas miden muy parecido: aproximadamente 8 caracteres.
@@ -292,15 +285,16 @@ A partir del análisis exploratorio se proponen las siguientes hipótesis y preg
 1. ¿El sentimiento general sobre el COVID-19 varía por la localidad registrada?
 
 2. Dada las características del COVID-19 y sus consecuencias, más del 50% de los tweets están asociados a un sentimiento negativo o extremadamente negativo.
-3. ¿Existe alguna relacion entre el largo promedio de las palabras utilizadas en comentarios, y el sentimiento asociado al tweet de donde provino?
 
-4. Hipótesis/pregunta: ¿Los sentimientos mayormente expresados en los Tweets tienen relacion con el contexto social del lugar desde donde son publicados?
+3. ¿Los sentimientos mayormente expresados en los Tweets tienen relacion con el contexto social del lugar desde donde son publicados?
 
-5. ¿Se puede asociar un sentimiento a una palabra dependiendo de las otras palabras mencionadas en un tweet?
+4. ¿Se puede asociar un sentimiento a una palabra dependiendo de las otras palabras mencionadas en un tweet?
 
-6. ¿Existe un alza o descenso de comentarios positivos al avanzar de los días?¿Si es así, a quí se debe?
+5. ¿Existe un alza o descenso de comentarios positivos al avanzar de los días?¿Si es así, a quí se debe?
 
-7. ¿Podemos generar un clasificador que se pueda generalizar en base a los datos que tenemos?
+6. ¿Podemos generar un clasificador que se pueda generalizar en base a los datos que tenemos?
+
+7. El sentimiento de los comentarios se ha visto modificado con respecto a tiempos anterior al Covid?
 
 # Referencias
 
