@@ -14,17 +14,17 @@ output:
 
 # Motivacion:
 
-Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en comentarios diarios con respecto al año 2019 [1], siendo una de sus principales causas la pandemia del COVID-19. 
+Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en comentarios diarios con respecto al mismo periodo de tiempo del año 2019 [1], siendo una de sus principales causas la pandemia del COVID-19. 
 
-Es por esta razón,  que analizar datos de twitter se hace interesante, pues se puede obtener información en tiempo de real de sucesos que están ocurriendo, y haciendo uso de la minería de datos y la facilidad con la que se pueden manipular grandes volúmenes de información, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ultimo influencia la percepcion de las personas acerca de la pandemia.
+Es por este contexto  que analizar datos de twitter es interesante, además se puede obtener información en tiempo real de sucesos que están ocurriendo, se pueden ocupar métodos de la minería de datos sobre esta información y es fácil manipular grandes volúmenes de información. Por estas razones, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ùltimo influencia la percepcion de las personas acerca de la pandemia.
 
 Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto son:
 
 - Identificar como se relaciona el sentimiento identificado con el contexto pais (segun mayor o menor presencia del sentimiento).
 - Categorizar paises segun mayor o menor presencia de sentimiento y relacionarlos con algun indice de felicidad publicado en el ultimo año.
--Identificar palabras que son clave a la hora de categorizar el sentimiento.
+- Identificar palabras que son clave a la hora de categorizar el sentimiento.
 - Establecer algoritmos para predecir sentimientos de forma sistematizada.
-- Entrenar modelos predecitivos en base a tweets usando un Dataset de entrenamiento y un dataset de evaluacion.
+- Entrenar modelos de clasificaciòn en base a tweets usando un Dataset de entrenamiento y un dataset de evaluacion.
 
 # Descripción de base de datos
 
@@ -119,7 +119,7 @@ df %>% group_by(Sentiment) %>% summarise(Proporcion = n()/nrow(df)) %>% arrange(
 
 Es decir, el sentimiento "Positive" representa al 27,5% de los tweets del set de datos, mientras que el 13,5% de los tweets están categorizados bajo el sentimiento "Extremely Negative".Es importante notar que los sentimientos extremos tanto positivo como negativo se presentan en menor proporcion.
 
-Otro punto importante a caracterizar es la locación en donde se emiten los tweets. En la siguiente tabla, se puede observar la cantidad total de tweets registrados para el top 10 de locaciones.
+Otro punto importante a caracterizar es la locación en donde se emiten los tweets. En la siguiente tabla, se puede observar la cantidad total de tweets registrados para el top 10 de localidades.
 
 ```{r}
 top_10 <- df %>% group_by(Location) %>% summarise(N=n()/nrow(df)) %>% arrange(-N)
@@ -279,12 +279,16 @@ Se puede observar que el largo de las palabras no parece ser determinante para e
 
 A partir del análisis exploratorio se proponen las siguientes hipótesis y preguntas que se podrían abordar con este set de datos:
 
-1. ¿El sentimiento general sobre el COVID-19 varía por la locación registrada?
+1. ¿El sentimiento general sobre el COVID-19 varía por la localidad registrada?
 
 2. Dada las características del COVID-19 y sus consecuencias, más del 50% de los tweets están asociados a un sentimiento negativo o extremadamente negativo.
 3. ¿Existe alguna relacion entre el largo promedio de las palabras utilizadas en comentarios, y el sentimiento asociado al tweet de donde provino?
 
-4. Hipótesis/pregunta: ¿Los sentimientos mayormente expresados en los Tweets tienen relacion con el contexto social del lugar desde donde son publicados?  
+4. Hipótesis/pregunta: ¿Los sentimientos mayormente expresados en los Tweets tienen relacion con el contexto social del lugar desde donde son publicados?
+
+5. ¿Se puede asociar un sentimiento a una palabra dependiendo de las otras palabras mencionadas en un tweet?
+
+6. ¿Existe un alza o descenso de comentarios positivos al avanzar de los dìas?¿Si es asì, a què se debe?
 
 # Referencias
 
