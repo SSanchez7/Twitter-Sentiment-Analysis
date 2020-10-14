@@ -261,6 +261,7 @@ pos_tweets_top <- pos_tweets%>%
 set.seed(1234)
 wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_pos, fixed.asp = TRUE)
 ```
+
 Se puede destacar que el tipo de palabras utilizadas en los 3 contextos de sentimiento (negativo, neutral y positivo) no varia en gran manera, repitiendose tipicamente las mismas dentro de las mas populares: "covid", "coronavirus", "supermarket", "food", "prices", "store" y "grocery". Dejando de lado la palabra "covid" las palabras mas repetidas se relacionan con el abastecimiento de productos basicos, lo que permite inferir de forma preliminar que este tema fue relevante para los usuarios durante la pandemia (entre marzo y abril).
 
 En base a los datos obtenidos categorizados por sentimiento, puede analizarse numero promedio de sus palabras, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento.
@@ -269,12 +270,13 @@ En base a los datos obtenidos categorizados por sentimiento, puede analizarse nu
 #Promedio en el largo de palabras por sentimiento. (Intentar hacerlos todos en un unico grafico)
 library(stringr)
 
-boxplot(str_length(neg_tweets$word),xlab = "Negative Sentiment", ylab = "Length", main="Largo palabras en comentarios negativos")
-boxplot(str_length(neu_tweets$word),xlab = "Neutral Sentiment", ylab = "Length", main="Largo palabras en comentarios neutrales")
-boxplot(str_length(pos_tweets$word),xlab = "Positive Sentiment", ylab = "Length", main="Largo palabras en comentarios positivos")
-cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
-cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
-cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
+ggplot(tweets_expand, aes(x=Sentiment, y =str_length(word) )) + geom_boxplot()
+#boxplot(str_length(neg_tweets$word),xlab = "Negative Sentiment", ylab = "Length", main="Largo palabras en comentarios negativos")
+#boxplot(str_length(neu_tweets$word),xlab = "Neutral Sentiment", ylab = "Length", main="Largo palabras en comentarios neutrales")
+#boxplot(str_length(pos_tweets$word),xlab = "Positive Sentiment", ylab = "Length", main="Largo palabras en comentarios positivos")
+#cat("Negative:",mean(str_length(neg_tweets$word)),"\n")
+#cat("Neutral:",mean(str_length(neu_tweets$word)),"\n")
+#cat("Positive:",mean(str_length(pos_tweets$word)),"\n")
 ```
 
 Se puede observar que el largo de las palabras no parece ser determinante para el valor de sentimiento del comentario en general, pues en promedio todas miden muy parecido: aproximadamente 8 caracteres.
