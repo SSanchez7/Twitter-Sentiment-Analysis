@@ -1,0 +1,778 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Proyecto semestral: Hito 1},
+  pdfauthor={Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez, Sebastián Urbina},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Proyecto semestral: Hito 1}
+\author{Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez,
+Sebastián Urbina}
+\date{Octubre 2020}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{motivacion}{%
+\section{Motivacion:}\label{motivacion}}
+
+Twitter es una de las redes sociales más utilizadas para comentar,
+compartir o debatir temas de actualidad y tendencias. El primer
+trimestre de 2020 tuvo un aumento de un 23\% en comentarios diarios con
+respecto al mismo periodo de tiempo del año 2019 {[}1{]}, siendo una de
+sus principales causas la pandemia del COVID-19.
+
+Es por este contexto que analizar datos de twitter es interesante,
+además se puede obtener información en tiempo real de sucesos que están
+ocurriendo, se pueden ocupar métodos de la minería de datos sobre esta
+información y es fácil manipular grandes volúmenes de información. Por
+estas razones, nace la motivación por explorar tweets relacionados con
+coronavirus en un intervalo de tiempo acotado, desde la perspectiva de
+los sentimientos y relacionandolos con el contexto pais desde donde se
+emiten; buscando establecer si este ùltimo influencia la percepcion de
+las personas acerca de la pandemia.
+
+Dicho lo anterior, los puntos claves a analizar en el desarrollo del
+proyecto son:
+
+\begin{itemize}
+\tightlist
+\item
+  Identificar como se relaciona el sentimiento identificado con el
+  contexto pais (segun mayor o menor presencia del sentimiento).
+\item
+  Categorizar paises segun mayor o menor presencia de sentimiento y
+  relacionarlos con algun indice de felicidad publicado en el ultimo
+  año.
+\item
+  Identificar palabras que son clave a la hora de categorizar el
+  sentimiento.
+\item
+  Establecer algoritmos para predecir sentimientos de forma
+  sistematizada.
+\item
+  Entrenar modelos de clasificaciòn en base a tweets usando un Dataset
+  de entrenamiento y un dataset de evaluacion.
+\end{itemize}
+
+\hypertarget{descripciuxf3n-de-base-de-datos}{%
+\section{Descripción de base de
+datos}\label{descripciuxf3n-de-base-de-datos}}
+
+La base de datos, extraída desde la plataforma \emph{Kaggle}{[}2{]},
+esta compuesta en principio por 44955 tweets relacionados con el tema
+COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020.
+Ademas de encontrarse el texto publicado se encuentran en la base de
+datos los atributos de fecha exacta de publicacion, ubicacion desde la
+cual se realizla publicacion, un identificador para el usuario y la
+asignacion de sentimiento para cada tweet. La asignacion de sentimiento
+a cada Tweet fue realizada de forma manual por el propietario de la base
+de datos. Esta variable de sentimiento sería un punto de comparación
+para un posible modelo de clasifiación de los sentimientos de los
+tweets.
+
+\hypertarget{exploraciuxf3n-de-datos}{%
+\section{Exploración de datos}\label{exploraciuxf3n-de-datos}}
+
+El objetivo de esta sección es describir la base de datos seleccionadas,
+mostrando estadísticas de resumen, gráficos relevantes para la
+descripción y un breve análisis sobre estos.
+
+El primer paso consiste en cargar todas las librerías que se utilizarán
+en este trabajo, las cuales permiten realizar gráficos y trabajar con
+los datos de una forma más simple y eficiente.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(tidytext)}
+\KeywordTok{library}\NormalTok{(stopwords)}
+\KeywordTok{library}\NormalTok{(wordcloud)}
+\KeywordTok{library}\NormalTok{(wordcloud2)}
+\KeywordTok{library}\NormalTok{(stringr)}
+\end{Highlighting}
+\end{Shaded}
+
+A continuación se procece a cargar la base de datos para poder realizar
+el análisis respectivo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train  <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/Corona_NLP_train.csv"}\NormalTok{, }\DataTypeTok{encoding=}\StringTok{"Latin-1"}\NormalTok{)}
+\NormalTok{test <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/Corona_NLP_test.csv"}\NormalTok{, }\DataTypeTok{encoding=}\StringTok{"Latin-1"}\NormalTok{)}
+\NormalTok{df <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(train,test)}
+\end{Highlighting}
+\end{Shaded}
+
+Tal y como se mencionó anteriormente, esta base de datos contiene 6
+columnas y 44955 filas de datos. Para poder tener una referencia de cómo
+son estos campos, a continuación se puede observar una vista previa de
+las primeras filas del set de datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   UserName ScreenName                  Location    TweetAt
+## 1     3799      48751                    London 16-03-2020
+## 2     3800      48752                        UK 16-03-2020
+## 3     3801      48753                 Vagabonds 16-03-2020
+## 4     3802      48754                           16-03-2020
+## 5     3803      48755                           16-03-2020
+## 6     3804      48756 ÃœT: 36.319708,-82.363649 16-03-2020
+##                                                                                                                                                                                                                                                                                                        OriginalTweet
+## 1                                                                                                                                                                                                    @MeNyrbie @Phil_Gahan @Chrisitv https://t.co/iFz9FAn2Pa and https://t.co/xX6ghGFzCC and https://t.co/I2NlzdxNo8
+## 2                                                                      advice Talk to your neighbours family to exchange phone numbers create contact list with phone numbers of neighbours schools employer chemist GP set up online shopping accounts if poss adequate supplies of regular meds but not over order
+## 3                                                                                                                                                                                Coronavirus Australia: Woolworths to give elderly, disabled dedicated shopping hours amid COVID-19 outbreak https://t.co/bInCA9Vp8P
+## 4      My food stock is not the only one which is empty...\n\nPLEASE, don't panic, THERE WILL BE ENOUGH FOOD FOR EVERYONE if you do not take more than you need. \nStay calm, stay safe.\n\n#COVID19france #COVID_19 #COVID19 #coronavirus #confinement #Confinementotal #ConfinementGeneral https://t.co/zrlG0Z520j
+## 5 Me, ready to go at supermarket during the #COVID19 outbreak.\n\nNot because I'm paranoid, but because my food stock is litteraly empty. The #coronavirus is a serious thing, but please, don't panic. It causes shortage...\n\n#CoronavirusFrance #restezchezvous #StayAtHome #confinement https://t.co/usmuaLq72n
+## 6                                                         As news of the regionÂ’s first confirmed COVID-19 case came out of Sullivan County last week, people flocked to area stores to purchase cleaning supplies, hand sanitizer, food, toilet paper and other goods, @Tim_Dodson reports https://t.co/cfXch7a2lU
+##            Sentiment
+## 1            Neutral
+## 2           Positive
+## 3           Positive
+## 4           Positive
+## 5 Extremely Negative
+## 6           Positive
+\end{verbatim}
+
+Para poder trabajar con los datos es necesario convertir algunos
+formatos de las variables, en particular en este caso, se procede a
+transformar las variables ``TweetAt'' a un formato de fecha, dado que
+corresponde al momento en donde se realizó el tweet, y la variable
+``OriginalTweet'' que corresponde al contenido del tweet realizado.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\OperatorTok{$}\NormalTok{TweetAt <-}\StringTok{ }\KeywordTok{as.Date}\NormalTok{(df}\OperatorTok{$}\NormalTok{TweetAt, }\DataTypeTok{format=}\StringTok{"%d-%m-%y"}\NormalTok{)}
+\NormalTok{df}\OperatorTok{$}\NormalTok{OriginalTweet <-}\StringTok{ }\KeywordTok{as.character}\NormalTok{(df}\OperatorTok{$}\NormalTok{OriginalTweet)}
+\end{Highlighting}
+\end{Shaded}
+
+Los formatos de cada variable del set de datos son mostrados a
+continuación:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    44955 obs. of  6 variables:
+##  $ UserName     : int  3799 3800 3801 3802 3803 3804 3805 3806 3807 3808 ...
+##  $ ScreenName   : int  48751 48752 48753 48754 48755 48756 48757 48758 48759 48760 ...
+##  $ Location     : chr  "London" "UK" "Vagabonds" "" ...
+##  $ TweetAt      : Date, format: "2020-03-16" "2020-03-16" ...
+##  $ OriginalTweet: chr  "@MeNyrbie @Phil_Gahan @Chrisitv https://t.co/iFz9FAn2Pa and https://t.co/xX6ghGFzCC and https://t.co/I2NlzdxNo8" "advice Talk to your neighbours family to exchange phone numbers create contact list with phone numbers of neigh"| __truncated__ "Coronavirus Australia: Woolworths to give elderly, disabled dedicated shopping hours amid COVID-19 outbreak htt"| __truncated__ "My food stock is not the only one which is empty...\n\nPLEASE, don't panic, THERE WILL BE ENOUGH FOOD FOR EVERY"| __truncated__ ...
+##  $ Sentiment    : chr  "Neutral" "Positive" "Positive" "Positive" ...
+\end{verbatim}
+
+Además, es importante mencionar con qué periodos se estará trabajando,
+por lo que el resultado de la siguiente línea de código arroja la fecha
+mínima y máxima del set de datos, siendo el 2 de marzo de 2020 y el 14
+de abril de 2020 respectivamente.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(df}\OperatorTok{$}\NormalTok{TweetAt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+## "2020-03-02" "2020-03-19" "2020-03-23" "2020-03-26" "2020-04-06" "2020-04-14"
+\end{verbatim}
+
+Para ver cómo están distribuidos los tweets en el tiempo, a continuación
+se realiza y muestra un histograma con las distribuciones de las fechas
+de los tweets realizados y registrados en esta base de datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{TweetAt)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{position=}\StringTok{"identity"}\NormalTok{, }\DataTypeTok{bins=}\DecValTok{30}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Distribución de las fechas de tweets"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"fecha de publicación",}
+\StringTok{       y = "}\NormalTok{número de tweets}\StringTok{") + theme_bw()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+Un comportamiento particular de los datos es que a finales de marzo la
+cantidad de tweets registrados disminiye considerablemente llegando a
+ser nulo, mientras que la mayor cantidad de tweets se encuentra
+concentrada durante la tercera semana de marzo y la segunda semana de
+abril.
+
+Un campo importante que posee esta base de datos es la columna
+``Sentiment'', la cual representa el sentimiento asociado al tweet
+registrado. A continuación se presenta la cantidad de tweets segun tipo
+de sentimiento (``Extremely Negative'', ``Extremely Postive'',
+``Negative'', ``Neutral'', ``Positive'') durante el periodo registrado
+en el set de datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets_mes_dia <-}\StringTok{ }\NormalTok{df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mes_dia =} \KeywordTok{format}\NormalTok{(TweetAt, }\StringTok{"%m-%d"}\NormalTok{))}
+\NormalTok{tweets_mes_dia }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(Sentiment, mes_dia) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{n =} \KeywordTok{n}\NormalTok{()) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ mes_dia, }\DataTypeTok{y =}\NormalTok{ n, }\DataTypeTok{color =}\NormalTok{ Sentiment)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ Sentiment)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Número de tweets publicados"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"fecha de publicación",}
+\StringTok{       y = "}\NormalTok{número de tweets}\StringTok{") +}
+\StringTok{  theme_bw() +}
+\StringTok{  theme(axis.text.x = element_text(angle = 90, size = 6),}
+\StringTok{        legend.position = "}\NormalTok{bottom}\StringTok{")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` regrouping output by 'Sentiment' (override with `.groups` argument)
+\end{verbatim}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+Se puede observar en este último gráfico que en general aquellos
+sentimientos que prevalecen son los de ``Positive'' y ``Negative''. Por
+otro lado, todos los tipos de sentimientos registrados tienen un
+comportamiento similar a lo largo del tiempo. Mientras que el
+sentimiento menos registrados en el tiempo corresponde al de ``Extremely
+Negative'', lo cual es interesante dado el contexto de la base de datos,
+en donde se esperaría que hubiese una mayor cantidad de tweets asociado
+a un sentimiento negativo o extramademente negativo.
+
+En el siguiente gráfico se puede observar la cantidad de tweets por cada
+tipo de sentimiento durante todo el periodo de observación.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# library(tidyverse)}
+\CommentTok{#tweets_sentiment <- df %>% group_by(Sentiment) %>% summarise(n = n())}
+\NormalTok{df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Sentiment)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat=}\StringTok{"count"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{coord_flip}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+Se observa que tal y como se mencionó anteriormente, los sentimientos
+que destacan son ``Positive'' y ``Negative'', alcanzando un total
+aproximado de 13000 y 11000 tweets respectivamente. El sentimiento con
+una menor cantidad de registros es ``Extremely Negative'', con un
+aproximado de 6000 tweets.
+
+Si se comparación la proporción de estos tweets en comparación al total
+del periodo de observación, se tiene que el porcentaje asociado a cada
+sentimiento son los siguientes:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(Sentiment) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Proporcion =} \KeywordTok{n}\NormalTok{()}\OperatorTok{/}\KeywordTok{nrow}\NormalTok{(df)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\OperatorTok{-}\NormalTok{Proporcion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` ungrouping output (override with `.groups` argument)
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 5 x 2
+##   Sentiment          Proporcion
+##   <chr>                   <dbl>
+## 1 Positive                0.275
+## 2 Negative                0.244
+## 3 Neutral                 0.185
+## 4 Extremely Positive      0.161
+## 5 Extremely Negative      0.135
+\end{verbatim}
+
+Es decir, el sentimiento ``Positive'' representa al 27,5\% de los tweets
+del set de datos, mientras que el 13,5\% de los tweets están
+categorizados bajo el sentimiento ``Extremely Negative''.Es importante
+notar que los sentimientos extremos tanto positivo como negativo se
+presentan en menor proporcion.
+
+Otro punto importante a caracterizar es la locación en donde se emiten
+los tweets. En la siguiente tabla, se puede observar la cantidad total
+de tweets registrados para el top 10 de localidades.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top_}\DecValTok{10}\NormalTok{ <-}\StringTok{ }\NormalTok{df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(Location) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{N=}\KeywordTok{n}\NormalTok{()}\OperatorTok{/}\KeywordTok{nrow}\NormalTok{(df)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(}\OperatorTok{-}\NormalTok{N)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` ungrouping output (override with `.groups` argument)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top_}\DecValTok{10}\NormalTok{ <-}\StringTok{ }\NormalTok{top_}\DecValTok{10}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,]}
+\NormalTok{top_}\DecValTok{10}\OperatorTok{$}\NormalTok{N <-}\StringTok{ }\KeywordTok{round}\NormalTok{(top_}\DecValTok{10}\OperatorTok{$}\NormalTok{N,}\DecValTok{4}\NormalTok{)}
+\KeywordTok{ggplot}\NormalTok{(top_}\DecValTok{10}\NormalTok{,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{reorder}\NormalTok{(Location,N), }\DataTypeTok{y =}\NormalTok{N )) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat=}\StringTok{"identity"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{coord_flip}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Pais"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Proporción del total de tweets"}\NormalTok{, }\DataTypeTok{title=}\StringTok{"Top-10 locaciones con más tweets"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{() }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+En este último gráfico se puede observar que un 20\% de los tweets no
+registran alguna locación, lo que se puede atribuir a que dentro de la
+aplicacion de twitter no todas las personas comparten su ubicacion. Del
+porcentaje restante, los lugares más comunes son de países como Estados
+Unidos, Reino Unido e India. Se puede observar tambien que la
+estandarizacion de las localidades no es la mejor, pues no siempre estan
+relacionadas a un pais de origen.
+
+Para poder analizar los contenidos de los tweets es necesario realizar
+una limpieza y normalización de estos. A continuación se crea una
+función que permite corregir algunos patrones de los textos tales como
+números, puntuación y espacios en blanco.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{limpiar_texto <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(texto)\{}
+    \CommentTok{# Se convierte todo el texto a minúsculas}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{tolower}\NormalTok{(texto)}
+    \CommentTok{# Eliminación de páginas web (palabras que empiezan por "http." seguidas }
+    \CommentTok{# de cualquier cosa que no sea un espacio)}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(nuevo_texto,}\StringTok{"http}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{S*"}\NormalTok{, }\StringTok{""}\NormalTok{)}
+    \CommentTok{# Eliminación de signos de puntuación}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(nuevo_texto,}\StringTok{"[[:punct:]]"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+    \CommentTok{# Eliminación de números}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(nuevo_texto,}\StringTok{"[[:digit:]]"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+    \CommentTok{# Eliminación de espacios en blanco múltiples}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{str_replace_all}\NormalTok{(nuevo_texto,}\StringTok{"[}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{s]+"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+    \CommentTok{# Tokenización por palabras individuales}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{str_split}\NormalTok{(nuevo_texto, }\StringTok{" "}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+    \CommentTok{# Eliminación de tokens con una longitud < 2}
+\NormalTok{    nuevo_texto <-}\StringTok{ }\KeywordTok{keep}\NormalTok{(}\DataTypeTok{.x =}\NormalTok{ nuevo_texto, }\DataTypeTok{.p =} \ControlFlowTok{function}\NormalTok{(x)\{}\KeywordTok{str_length}\NormalTok{(x) }\OperatorTok{>}\StringTok{ }\DecValTok{1}\NormalTok{\})}
+    \KeywordTok{return}\NormalTok{(nuevo_texto)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Para entender como procede esta última función, en la siguiente línea se
+muestra un ejemplo junto con los resultados de la aplicación de esta, en
+donde se puede observar que se extrajo cada palabra del objeto
+\emph{text}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{text =}\StringTok{ "Hola mi nombre es https://www.google.cl. Como. no sé xd6666 ASDA"}
+\KeywordTok{limpiar_texto}\NormalTok{(text)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "hola"   "mi"     "nombre" "es"     "como"   "no"     "sé"     "xd"    
+## [9] "asda"
+\end{verbatim}
+
+En el siguiente paso, se aplica la función \emph{limpiar\_texto} al
+contenido de los tweets de la base de datos, en donde cada resultado de
+cada tweet es almacenado en un vector de palabras, por lo que cada tweet
+tendría asociado uno de estos vectores.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets <-}\StringTok{ }\NormalTok{df }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{texto_vector =} \KeywordTok{map}\NormalTok{(}\DataTypeTok{.x =}\NormalTok{ OriginalTweet, }\DataTypeTok{.f =}\NormalTok{ limpiar_texto))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select}\NormalTok{(texto_vector) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{head}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                                                                                                                                                                                                                                                                      texto_vector
+## 1                                                                                                                                                                                                                                                       menyrbie, phil, gahan, chrisitv, and, and
+## 2              advice, talk, to, your, neighbours, family, to, exchange, phone, numbers, create, contact, list, with, phone, numbers, of, neighbours, schools, employer, chemist, gp, set, up, online, shopping, accounts, if, poss, adequate, supplies, of, regular, meds, but, not, over, order
+## 3                                                                                                                                                                              coronavirus, australia, woolworths, to, give, elderly, disabled, dedicated, shopping, hours, amid, covid, outbreak
+## 4 my, food, stock, is, not, the, only, one, which, is, empty, please, don, panic, there, will, be, enough, food, for, everyone, if, you, do, not, take, more, than, you, need, stay, calm, stay, safe, covid, france, covid, covid, coronavirus, confinement, confinementotal, confinementgeneral
+## 5  me, ready, to, go, at, supermarket, during, the, covid, outbreak, not, because, paranoid, but, because, my, food, stock, is, litteraly, empty, the, coronavirus, is, serious, thing, but, please, don, panic, it, causes, shortage, coronavirusfrance, restezchezvous, stayathome, confinement
+## 6                                      as, news, of, the, regionâ, first, confirmed, covid, case, came, out, of, sullivan, county, last, week, people, flocked, to, area, stores, to, purchase, cleaning, supplies, hand, sanitizer, food, toilet, paper, and, other, goods, tim, dodson, reports
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Cada valor de la columna texto_vector es un vector con cada palabra del texto}
+\NormalTok{tweets}\OperatorTok{$}\NormalTok{texto_vector[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+## [1] "menyrbie" "phil"     "gahan"    "chrisitv" "and"      "and"
+\end{verbatim}
+
+En donde cada valor de la columna texto\_vector es un vector con cada
+palabra del texto
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#unnest() nos permite realizar una expansión de los vectores de palabras que creamos, esto aumenta la dimension de filas considerablemente}
+\NormalTok{tweets_expand <-}\StringTok{ }\NormalTok{tweets }\OperatorTok{%>%}\StringTok{ }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{OriginalTweet) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{unnest}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `cols` is now required when using unnest().
+## Please use `cols = c(texto_vector)`
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets_expand <-}\StringTok{ }\NormalTok{tweets_expand }\OperatorTok{%>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{word =}\NormalTok{ texto_vector)}
+\KeywordTok{head}\NormalTok{(tweets_expand) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 6
+##   UserName ScreenName Location TweetAt    Sentiment word    
+##      <int>      <int> <chr>    <date>     <chr>     <chr>   
+## 1     3799      48751 London   2020-03-16 Neutral   menyrbie
+## 2     3799      48751 London   2020-03-16 Neutral   phil    
+## 3     3799      48751 London   2020-03-16 Neutral   gahan   
+## 4     3799      48751 London   2020-03-16 Neutral   chrisitv
+## 5     3799      48751 London   2020-03-16 Neutral   and     
+## 6     3799      48751 London   2020-03-16 Neutral   and
+\end{verbatim}
+
+Se utilizan \emph{stopwords} para filtrar algunas palabras propias del
+ingles (lenguaje dominio de los comentarios) como artículos, pronombres,
+preposiciones, adverbios e incluso algunos verbos. Palabras que no
+tienen un significado por si solas, sino que modifican o acompañan a
+otras.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# "word" %in% vector -> true or false}
+\NormalTok{lista_stopwords <-}\StringTok{ }\KeywordTok{stopwords}\NormalTok{(}\StringTok{"english"}\NormalTok{)}
+\NormalTok{lista_stopwords <-}\StringTok{ }\KeywordTok{c}\NormalTok{(lista_stopwords, }\StringTok{"amp"}\NormalTok{,}\StringTok{"can"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Luego se representa en un grafico de barras, las 10 palabras mas
+repetidas en los comentarios segun el sentimiento asignado al Tweet en
+el que se encuentran.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tweets_expand <-}\StringTok{ }\NormalTok{tweets_expand }\OperatorTok{%>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\NormalTok{(word }\OperatorTok{%in%}\StringTok{ }\NormalTok{lista_stopwords)) }
+
+\NormalTok{tweets_expand }\OperatorTok{%>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(Sentiment, word) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(word) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(Sentiment) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(}\DecValTok{10}\NormalTok{,n) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(Sentiment, }\KeywordTok{desc}\NormalTok{(n)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{reorder}\NormalTok{(word,n),}\DataTypeTok{y=}\NormalTok{n,}\DataTypeTok{fill=}\NormalTok{Sentiment)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"Frecuencia"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"Palabras mas repetidas"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+Se puede observar que, como era de esperarse, las palabras mas
+comentadas en todas las categorias de sentimiento son las referentes
+directamente a la pandemia: ``covid'' y ``coronavirus''. Se destaca de
+igual forma la alta popularidad de las palabras ``food'' y ``prices'',
+posiblemente debido al parcial desabastecimiento de productos y la
+subida de precios producto de la cuarentena.
+
+Un analisis similar se presenta a continuacion, pero esta vez en word
+clouds:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Listas de colores utilizadas en las nubes de palabras}
+\NormalTok{pal_neg <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"#FC9272"}\NormalTok{, }\StringTok{"#FB6A4A"}\NormalTok{, }\StringTok{"#EF3B2C"}\NormalTok{, }\StringTok{"#CB181D"}\NormalTok{, }\StringTok{"#A50F15"}\NormalTok{)}
+\NormalTok{pal_neu <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"#A1D99B"}\NormalTok{, }\StringTok{"#74C476"}\NormalTok{, }\StringTok{"#41AB5D"}\NormalTok{, }\StringTok{"#238B45"}\NormalTok{, }\StringTok{"#006D2C"}\NormalTok{)}
+\NormalTok{pal_pos <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"#9ECAE1"}\NormalTok{, }\StringTok{"#6BAED6"}\NormalTok{, }\StringTok{"#4292C6"}\NormalTok{, }\StringTok{"#2171B5"}\NormalTok{, }\StringTok{"#08519C"}\NormalTok{)}
+
+\NormalTok{most_frec <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"covid"}\NormalTok{,}\StringTok{"coronavirus"}\NormalTok{,}\StringTok{"supermarket"}\NormalTok{,}\StringTok{"grocery"}\NormalTok{,}\StringTok{"store"}\NormalTok{)}
+
+\NormalTok{top <-}\StringTok{ }\DecValTok{400}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Palabras mas repetidas en comentarios negativos y extremadamente negativos}
+\NormalTok{neg_tweets <-}\StringTok{ }\NormalTok{tweets_expand }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Sentiment }\OperatorTok{==}\StringTok{ "Negative"} \OperatorTok{|}\StringTok{ }\NormalTok{Sentiment }\OperatorTok{==}\StringTok{ "Extremely Negative"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{count}\NormalTok{(word)}
+\NormalTok{neg_tweets_top <-}\StringTok{ }\NormalTok{neg_tweets}\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(n)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(top,n) }
+
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\KeywordTok{wordcloud}\NormalTok{(}\DataTypeTok{words =}\NormalTok{ neg_tweets_top}\OperatorTok{$}\NormalTok{word, }\DataTypeTok{scale=}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\FloatTok{0.7}\NormalTok{), }\DataTypeTok{freq =}\NormalTok{ neg_tweets_top}\OperatorTok{$}\NormalTok{n, }\DataTypeTok{min.freq =} \DecValTok{1}\NormalTok{,}\DataTypeTok{max.words=}\DecValTok{100}\NormalTok{, }\DataTypeTok{random.order=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{rot.per=}\FloatTok{0.35}\NormalTok{, }\DataTypeTok{colors=}\NormalTok{pal_neg)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Palabras mas repetidas en comentarios neutrales}
+\NormalTok{neu_tweets <-}\StringTok{ }\NormalTok{tweets_expand }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Sentiment }\OperatorTok{==}\StringTok{ "Neutral"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{count}\NormalTok{(word)}
+\NormalTok{neu_tweets_top <-}\StringTok{ }\NormalTok{neu_tweets}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(n)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(top,n) }
+  
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\KeywordTok{wordcloud}\NormalTok{(}\DataTypeTok{words =}\NormalTok{ neu_tweets_top}\OperatorTok{$}\NormalTok{word, }\DataTypeTok{scale=}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\FloatTok{0.7}\NormalTok{), }\DataTypeTok{freq =}\NormalTok{ neu_tweets_top}\OperatorTok{$}\NormalTok{n, }\DataTypeTok{min.freq =} \DecValTok{1}\NormalTok{,}\DataTypeTok{max.words=}\DecValTok{100}\NormalTok{, }\DataTypeTok{random.order=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{rot.per=}\FloatTok{0.35}\NormalTok{, }\DataTypeTok{colors=}\NormalTok{pal_neu, }\DataTypeTok{fixed.asp =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Palabra mas repetidas en comentarios positivos y extremadamente positivos}
+\NormalTok{pos_tweets <-}\StringTok{ }\NormalTok{tweets_expand }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Sentiment }\OperatorTok{==}\StringTok{ "Positive"} \OperatorTok{|}\StringTok{ }\NormalTok{Sentiment }\OperatorTok{==}\StringTok{ "Extremely Positive"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{count}\NormalTok{(word)}
+\NormalTok{pos_tweets_top <-}\StringTok{ }\NormalTok{pos_tweets}\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(n)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(top,n) }
+
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\KeywordTok{wordcloud}\NormalTok{(}\DataTypeTok{words =}\NormalTok{ pos_tweets_top}\OperatorTok{$}\NormalTok{word, }\DataTypeTok{scale=}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\FloatTok{0.7}\NormalTok{), }\DataTypeTok{freq =}\NormalTok{ pos_tweets_top}\OperatorTok{$}\NormalTok{n, }\DataTypeTok{min.freq =} \DecValTok{1}\NormalTok{,}\DataTypeTok{max.words=}\DecValTok{100}\NormalTok{, }\DataTypeTok{random.order=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{rot.per=}\FloatTok{0.35}\NormalTok{, }\DataTypeTok{colors=}\NormalTok{pal_pos, }\DataTypeTok{fixed.asp =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-23-1.pdf}
+
+Se puede destacar que el tipo de palabras utilizadas en los 3 contextos
+de sentimiento (negativo, neutral y positivo) no varia en gran manera,
+repitiendose tipicamente las mismas dentro de las mas populares:
+``covid'', ``coronavirus'', ``supermarket'', ``food'', ``prices'',
+``store'' y ``grocery''. Dejando de lado la palabra ``covid'' las
+palabras mas repetidas se relacionan con el abastecimiento de productos
+basicos, lo que permite inferir de forma preliminar que este tema fue
+relevante para los usuarios durante la pandemia (entre marzo y abril).
+
+En base a los datos obtenidos categorizados por sentimiento, puede
+analizarse su largo promedio, y asi ver si existe alguna relacion entre
+esas variables. Para esto se hace uso de los boxplot, con el fin de
+comparar promedios y distribuciones, y detectar algunos outliers segun
+el sentimiento. Es importante destacar aqui la presencia de hashtags
+(\#), que suponen una mayor extension al largo del tweet.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Promedio en el largo de tweets por sentimiento.}
+
+\KeywordTok{ggplot}\NormalTok{(tweets, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Sentiment, }\DataTypeTok{y =}\KeywordTok{str_length}\NormalTok{(OriginalTweet) ),) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{y =} \StringTok{"Largo"}\NormalTok{, }\DataTypeTok{title=} \StringTok{"Distribucion del largo de tweets por sentimiento"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hito_1_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggsave}\NormalTok{(}\DataTypeTok{plot =} \KeywordTok{last_plot}\NormalTok{(), }\DataTypeTok{width =} \DecValTok{10}\NormalTok{, }\DataTypeTok{height =} \DecValTok{10}\NormalTok{, }\DataTypeTok{dpi =} \DecValTok{300}\NormalTok{, }\DataTypeTok{filename =} \StringTok{"boxplot_len_words.png"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Se puede observar que el largo de las palabras no parece ser
+determinante para el valor de sentimiento del comentario en general,
+pues en promedio todas miden muy parecido: aproximadamente 8 caracteres.
+
+\hypertarget{propuesta-de-hipuxf3tesis}{%
+\section{Propuesta de hipótesis}\label{propuesta-de-hipuxf3tesis}}
+
+A partir del análisis exploratorio se proponen las siguientes hipótesis
+y preguntas que se podrían abordar con este set de datos:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  ¿El sentimiento general sobre el COVID-19 varía por la localidad
+  registrada?
+\item
+  Dada las características del COVID-19 y sus consecuencias, más del
+  50\% de los tweets están asociados a un sentimiento negativo o
+  extremadamente negativo.
+\item
+  ¿Los sentimientos mayormente expresados en los Tweets tienen relacion
+  con el contexto social del lugar desde donde son publicados?
+\item
+  ¿Se puede asociar un sentimiento a una palabra dependiendo de las
+  otras palabras mencionadas en un tweet?
+\item
+  ¿Existe un alza o descenso de comentarios positivos al avanzar de los
+  días?¿Si es así, a qué se debe?
+\item
+  ¿Podemos generar un clasificador que se pueda generalizar en base a
+  los datos que tenemos?
+\item
+  El sentimiento de los comentarios se ha visto modificado con respecto
+  a tiempos anterior al Covid?
+\end{enumerate}
+
+\hypertarget{proximos-pasos.}{%
+\section{Proximos pasos.}\label{proximos-pasos.}}
+
+Como se mencionó antes, los datos manejados no tienen un estándar en la
+categorización por localidad, por lo que resulta muy importante tratar
+con nuevos dataset para agrupar mejor esas localizaciones.
+
+Es necesario también mejorar el filtro de palabras, esta vez
+considerando el uso de hashtags, para realizar un análisis más detallado
+acerca de la correlación entre la extensión de estas y el sentimiento
+asociado al tweet.
+
+Y para entrar a comparar el sentimiento promedio de tweets en distintas
+fechas, se requerirá elaborar y extender un algoritmo de clasificación a
+nuevos dataset.
+
+\hypertarget{referencias}{%
+\section{Referencias}\label{referencias}}
+
+{[}1{]} Twitter suma 166 millones de usuarios durante el Coronavirus.
+(2020, 3 junio). REBOLD, Data-Driven Marketing \& Communication.
+\url{https://letsrebold.com/es/blog/twitter-suma-166-millones-de-usuarios-frente-al-coronavirus/\#:\%7E:text=Asimismo\%2C\%20Twitter\%20comunic\%C3\%B3\%20en\%20la,el\%20primer\%20trimestre\%20de\%202019}.
+
+{[}2{]} Coronavirus tweets NLP - Text Classification. (2020, 8
+septiembre). Kaggle.
+\url{https://www.kaggle.com/datatattle/covid-19-nlp-text-classification?select=Corona_NLP_test.csv}
+
+\hypertarget{contribuciones-del-equipo}{%
+\section{Contribuciones del equipo}\label{contribuciones-del-equipo}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Nicolás Herrera:
+\item
+  Yesenia Marulanda:
+\item
+  Franco Migliorelli:
+\item
+  Samuel Sánchez:
+\item
+  Sebastián Urbina:
+\end{enumerate}
+
+\end{document}

@@ -3,11 +3,11 @@ title: "Proyecto semestral: Hito 1"
 author: "Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez, Sebastián Urbina"
 date: "Octubre 2020"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     number_sections: yes
     theme: spacelab
-    toc: yes
-  pdf_document:
     toc: yes
 ---
 
@@ -60,7 +60,7 @@ Tal y como se mencionó anteriormente, esta base de datos contiene 6 columnas y 
 head(df)
 ```
 
-Para poder trabajar con los datos es necesario covnertir algunos formatos de las variables, en particular en este caso, se procede a transformar las variables "TweetAt" a un formato de fecha, dado que corresponde al momento en donde se realizó el tweet, y la variable "OriginalTweet" que corresponde al contenido del tweet realizado.
+Para poder trabajar con los datos es necesario convertir algunos formatos de las variables, en particular en este caso, se procede a transformar las variables "TweetAt" a un formato de fecha, dado que corresponde al momento en donde se realizó el tweet, y la variable "OriginalTweet" que corresponde al contenido del tweet realizado.
 
 ```{r}
 df$TweetAt <- as.Date(df$TweetAt, format="%d-%m-%y")
@@ -133,7 +133,7 @@ ggplot(top_10,aes(x=reorder(Location,N), y =N )) +
   theme_bw() 
 ```
 
-En este último gráfico se puede observar que un 20% de los tweets no registran alguna locación, mientras que del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India.
+En este último gráfico se puede observar que un 20% de los tweets no registran alguna locación, lo que se puede atribuir a que dentro de la aplicacion de twitter no todas las personas comparten su ubicacion. Del porcentaje restante, los lugares más comunes son de países como Estados Unidos, Reino Unido e India. Se puede observar tambien que la estandarizacion de las localidades no es la mejor, pues no siempre estan relacionadas a un pais de origen.
 
 Para poder analizar los contenidos de los tweets es necesario realizar una limpieza y normalización de estos. A continuación se crea una función que permite corregir algunos patrones de los textos tales como números, puntuación y espacios en blanco.
 
@@ -185,7 +185,7 @@ tweets_expand <- tweets %>% select(-OriginalTweet) %>% unnest()
 tweets_expand <- tweets_expand %>% rename(word = texto_vector)
 head(tweets_expand) 
 ```
-Se utilizan *stopwords* para filtrar algunas palabras propias del ingles (lenguaje dominio de los comentarios) como artículos, pronombres, preposiciones, adverbios e incluso algunos verbos. Estas palabras no tienen un significado por si solas, sino que modifican o acompañan a otras
+Se utilizan *stopwords* para filtrar algunas palabras propias del ingles (lenguaje dominio de los comentarios) como artículos, pronombres, preposiciones, adverbios e incluso algunos verbos. Palabras que no tienen un significado por si solas, sino que modifican o acompañan a otras.
 
 ```{r}
 # "word" %in% vector -> true or false
@@ -219,12 +219,13 @@ pal_neg <- c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#A50F15")
 pal_neu <- c("#A1D99B", "#74C476", "#41AB5D", "#238B45", "#006D2C")
 pal_pos <- c("#9ECAE1", "#6BAED6", "#4292C6", "#2171B5", "#08519C")
 
+most_frec <- c("covid","coronavirus","supermarket","grocery","store")
+
 top <- 400
 ```
 
 ```{r}
 #Palabras mas repetidas en comentarios negativos y extremadamente negativos
-most_frec <- c("covid","coronavirus","supermarket","grocery","store")
 neg_tweets <- tweets_expand %>% 
   filter(Sentiment == "Negative" | Sentiment == "Extremely Negative") %>%
   count(word)
@@ -236,6 +237,7 @@ neg_tweets_top <- neg_tweets%>%
 set.seed(1234)
 wordcloud(words = neg_tweets_top$word, scale=c(5,0.7), freq = neg_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_neg)
 ```
+
 ```{r}
 #Palabras mas repetidas en comentarios neutrales
 neu_tweets <- tweets_expand %>% 
@@ -266,10 +268,10 @@ wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, 
 
 Se puede destacar que el tipo de palabras utilizadas en los 3 contextos de sentimiento (negativo, neutral y positivo) no varia en gran manera, repitiendose tipicamente las mismas dentro de las mas populares: "covid", "coronavirus", "supermarket", "food", "prices", "store" y "grocery". Dejando de lado la palabra "covid" las palabras mas repetidas se relacionan con el abastecimiento de productos basicos, lo que permite inferir de forma preliminar que este tema fue relevante para los usuarios durante la pandemia (entre marzo y abril).
 
-En base a los datos obtenidos categorizados por sentimiento, puede analizarse su largo promedio, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento.
+En base a los datos obtenidos categorizados por sentimiento, puede analizarse su largo promedio, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento. Es importante destacar aqui la presencia de hashtags (#), que suponen una mayor extension al largo del tweet.
   
 ```{r}
-#Promedio en el largo de palabras por sentimiento.
+#Promedio en el largo de tweets por sentimiento.
 
 ggplot(tweets, aes(x=Sentiment, y =str_length(OriginalTweet) ),) + geom_boxplot() + labs(y = "Largo", title= "Distribucion del largo de tweets por sentimiento")
 
@@ -283,18 +285,21 @@ Se puede observar que el largo de las palabras no parece ser determinante para e
 A partir del análisis exploratorio se proponen las siguientes hipótesis y preguntas que se podrían abordar con este set de datos:
 
 1. ¿El sentimiento general sobre el COVID-19 varía por la localidad registrada?
-
 2. Dada las características del COVID-19 y sus consecuencias, más del 50% de los tweets están asociados a un sentimiento negativo o extremadamente negativo.
-
 3. ¿Los sentimientos mayormente expresados en los Tweets tienen relacion con el contexto social del lugar desde donde son publicados?
-
 4. ¿Se puede asociar un sentimiento a una palabra dependiendo de las otras palabras mencionadas en un tweet?
-
-5. ¿Existe un alza o descenso de comentarios positivos al avanzar de los días?¿Si es así, a quí se debe?
-
+5. ¿Existe un alza o descenso de comentarios positivos al avanzar de los días?¿Si es así, a qué se debe?
 6. ¿Podemos generar un clasificador que se pueda generalizar en base a los datos que tenemos?
-
 7. El sentimiento de los comentarios se ha visto modificado con respecto a tiempos anterior al Covid?
+
+# Proximos pasos.
+
+Como se mencionó antes, los datos manejados no tienen un estándar en la categorización por localidad, por lo que resulta muy importante tratar con nuevos dataset para agrupar mejor esas localizaciones.
+
+Es necesario también mejorar el filtro de palabras, esta vez considerando el uso de hashtags, para realizar un análisis más detallado acerca de la correlación entre la extensión de estas y el sentimiento asociado al tweet.
+
+Y para entrar a comparar el sentimiento promedio de tweets en distintas fechas, se requerirá elaborar y extender un algoritmo de clasificación a nuevos dataset.
+
 
 # Referencias
 
