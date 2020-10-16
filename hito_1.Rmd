@@ -309,6 +309,8 @@ Y para entrar a comparar el sentimiento promedio de tweets en distintas fechas, 
 
 
 # Contribuciones del equipo
+Existen tareas que fueron realizadas en conjunto por el grupo, tales como la selección del tema de interés y la búsqueda de bases de datos que se ajustarán a los requerimientos del grupo. A continuación se detallan las tareas que realizó cada miembro del equipo:
+
 1. Nicolás Herrera:
 2. Yesenia Marulanda:
 3. Franco Migliorelli:
