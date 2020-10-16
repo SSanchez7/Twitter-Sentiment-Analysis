@@ -16,23 +16,23 @@ output:
 
 Twitter es una de las redes sociales más utilizadas para comentar, compartir o debatir temas de actualidad y tendencias. El primer trimestre de 2020 tuvo un aumento de un 23% en comentarios diarios con respecto al mismo periodo de tiempo del año 2019 [1], siendo una de sus principales causas la pandemia del COVID-19. 
 
-Es por este contexto  que analizar datos de twitter es interesante, además se puede obtener información en tiempo real de sucesos que están ocurriendo, se pueden ocupar métodos de la minería de datos sobre esta información y es fácil manipular grandes volúmenes de información. Por estas razones, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ùltimo influencia la percepcion de las personas acerca de la pandemia.
+Es por este contexto  que analizar datos de twitter es interesante, además de que se puede obtener información en tiempo real de sucesos que están ocurriendo, se pueden ocupar métodos de la minería de datos sobre esta información y es fácil manipular grandes volúmenes de información. Por estas razones, nace la motivación por explorar tweets relacionados con coronavirus en un intervalo de tiempo acotado, desde la perspectiva de los sentimientos y relacionandolos con el contexto pais desde donde se emiten; buscando establecer si este ùltimo influencia la percepcion de las personas acerca de la pandemia.
 
 Dicho lo anterior, los puntos claves a analizar en el desarrollo del proyecto son:
 
-- Identificar como se relaciona el sentimiento identificado con el contexto pais (segun mayor o menor presencia del sentimiento).
-- Categorizar paises segun mayor o menor presencia de sentimiento y relacionarlos con algun indice de felicidad publicado en el ultimo año.
+- Identificar cómo se relaciona el sentimiento identificado con el contexto país (según mayor o menor presencia del sentimiento).
+- Categorizar países según mayor o menor presencia de sentimiento y relacionarlos con algun índice de felicidad publicado en el último año.
 - Identificar palabras que son clave a la hora de categorizar el sentimiento.
 - Establecer algoritmos para predecir sentimientos de forma sistematizada.
-- Entrenar modelos de clasificaciòn en base a tweets usando un Dataset de entrenamiento y un dataset de evaluacion.
+- Entrenar modelos de clasificaciòn en base a tweets usando un dataset de entrenamiento y un dataset de evaluacion.
 
 # Descripción de base de datos
 
-La base  de datos, extraída desde la plataforma *Kaggle*[2], esta compuesta en principio por 44955 tweets  relacionados con el tema COVID 19 y que fueron publicados del 2 de marzo al 14 de abril de 2020. Ademas de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicacion, ubicacion desde la cual se realizla publicacion, un identificador para el usuario y la asignacion de sentimiento para cada tweet. La asignacion de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos. Esta variable de sentimiento sería un punto de comparación para un posible modelo de clasifiación de los sentimientos de los tweets.
+La base  de datos, extraída desde la plataforma *Kaggle*[2], esta compuesta en principio por 44.955 tweets  relacionados con el tema COVID 19 y que fueron publicados desde el 2 de marzo al 14 de abril de 2020. Además de encontrarse el texto publicado se encuentran en la base de datos los atributos de fecha exacta de publicación, ubicación desde la cual se realizla publicación, un identificador para el usuario y la asignación de sentimiento para cada tweet. La asignación de sentimiento a cada Tweet fue realizada de forma manual por el propietario de la base de datos. Esta variable de sentimiento sería un punto de comparación para un posible modelo de clasifiación de los sentimientos de los tweets.
 
 
 # Exploración de datos
-El objetivo de esta sección es describir la base de datos seleccionadas, mostrando estadísticas de resumen, gráficos relevantes para la descripción y un breve análisis sobre estos.
+El objetivo de esta sección es describir la base de datos seleccionada, mostrando estadísticas de resumen, gráficos relevantes para la descripción y un breve análisis sobre estos.
 
 El primer paso consiste en cargar todas las librerías que se utilizarán en este trabajo, las cuales permiten realizar gráficos y trabajar con los datos de una forma más simple y eficiente.
 ```{r, message = F, warning=F}
@@ -54,7 +54,7 @@ test <- read.csv("data/Corona_NLP_test.csv", encoding="Latin-1")
 df <- rbind(train,test)
 ```
 
-Tal y como se mencionó anteriormente, esta base de datos contiene 6 columnas y 44955 filas de datos. Para poder tener una referencia de cómo son estos campos, a continuación se puede observar una vista previa de las primeras filas del set de datos.
+Tal y como se mencionó anteriormente, esta base de datos contiene 6 columnas y 44.955 filas de datos. Para poder tener una referencia de cómo son estos campos, a continuación se puede observar una vista previa de las primeras filas del set de datos.
 
 ```{r}
 head(df)
@@ -185,7 +185,7 @@ tweets_expand <- tweets %>% select(-OriginalTweet) %>% unnest()
 tweets_expand <- tweets_expand %>% rename(word = texto_vector)
 head(tweets_expand) 
 ```
-Se utilizan *stopwords* para filtrar algunas palabras propias del ingles (lenguaje dominio de los comentarios) como artículos, pronombres, preposiciones, adverbios e incluso algunos verbos. Palabras que no tienen un significado por si solas, sino que modifican o acompañan a otras.
+Se utilizan *stopwords* para filtrar algunas palabras propias del inglés (lenguaje dominio de los comentarios) como artículos, pronombres, preposiciones, adverbios e incluso algunos verbos. Palabras que no tienen un significado por sí solas, sino que modifican o acompañan a otras.
 
 ```{r}
 # "word" %in% vector -> true or false
@@ -193,7 +193,7 @@ lista_stopwords <- stopwords("english")
 lista_stopwords <- c(lista_stopwords, "amp","can")
 ```
 
-Luego se representa en un grafico de barras, las 10 palabras mas repetidas en los comentarios segun el sentimiento asignado al Tweet en el que se encuentran.
+Luego se representa en un gráfico de barras sobre las 10 palabras más repetidas en los comentarios según el sentimiento asignado al Tweet en el que se encuentran.
 
 ```{r}
 tweets_expand <- tweets_expand %>% filter(!(word %in% lista_stopwords)) 
@@ -209,9 +209,9 @@ tweets_expand %>% group_by(Sentiment, word) %>%
   coord_flip()
 ```
 
-Se puede observar que, como era de esperarse, las palabras mas comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena.
+Se puede observar que, como era de esperarse, las palabras más comentadas en todas las categorias de sentimiento son las referentes directamente a la pandemia: "covid" y "coronavirus". Se destaca de igual forma la alta popularidad de las palabras "food" y "prices", posiblemente debido al parcial desabastecimiento de productos y la subida de precios producto de la cuarentena.
 
-Un analisis similar se presenta a continuacion, pero esta vez en word clouds:
+Un análisis similar se presenta a continuación, pero esta vez en nubes de palabras:
 
 ```{r}
 #Listas de colores utilizadas en las nubes de palabras
@@ -225,7 +225,7 @@ top <- 400
 ```
 
 ```{r}
-#Palabras mas repetidas en comentarios negativos y extremadamente negativos
+#Palabras más repetidas en comentarios negativos y extremadamente negativos
 neg_tweets <- tweets_expand %>% 
   filter(Sentiment == "Negative" | Sentiment == "Extremely Negative") %>%
   count(word)
@@ -239,7 +239,7 @@ wordcloud(words = neg_tweets_top$word, scale=c(5,0.7), freq = neg_tweets_top$n, 
 ```
 
 ```{r}
-#Palabras mas repetidas en comentarios neutrales
+#Palabras más repetidas en comentarios neutrales
 neu_tweets <- tweets_expand %>% 
   filter(Sentiment == "Neutral") %>%
   count(word)
@@ -253,7 +253,7 @@ wordcloud(words = neu_tweets_top$word, scale=c(5,0.7), freq = neu_tweets_top$n, 
 ```
 
 ```{r}
-#Palabra mas repetidas en comentarios positivos y extremadamente positivos
+#Palabra más repetidas en comentarios positivos y extremadamente positivos
 pos_tweets <- tweets_expand %>% 
   filter(Sentiment == "Positive" | Sentiment == "Extremely Positive") %>%
   count(word)
@@ -266,9 +266,9 @@ set.seed(1234)
 wordcloud(words = pos_tweets_top$word, scale=c(5,0.7), freq = pos_tweets_top$n, min.freq = 1,max.words=100, random.order=FALSE, rot.per=0.35, colors=pal_pos, fixed.asp = TRUE)
 ```
 
-Se puede destacar que el tipo de palabras utilizadas en los 3 contextos de sentimiento (negativo, neutral y positivo) no varia en gran manera, repitiendose tipicamente las mismas dentro de las mas populares: "covid", "coronavirus", "supermarket", "food", "prices", "store" y "grocery". Dejando de lado la palabra "covid" las palabras mas repetidas se relacionan con el abastecimiento de productos basicos, lo que permite inferir de forma preliminar que este tema fue relevante para los usuarios durante la pandemia (entre marzo y abril).
+Se puede destacar que el tipo de palabras utilizadas en los 3 contextos de sentimiento (negativo, neutral y positivo) no varía en gran manera, repitiendose típicamente las mismas dentro de las mas populares: "covid", "coronavirus", "supermarket", "food", "prices", "store" y "grocery". Dejando de lado la palabra "covid" las palabras más repetidas se relacionan con el abastecimiento de productos basicos, lo que permite inferir de forma preliminar que este tema fue relevante para los usuarios durante la pandemia (entre marzo y abril).
 
-En base a los datos obtenidos categorizados por sentimiento, puede analizarse su largo promedio, y asi ver si existe alguna relacion entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento. Es importante destacar aqui la presencia de hashtags (#), que suponen una mayor extension al largo del tweet.
+En base a los datos obtenidos categorizados por sentimiento, puede analizarse su largo promedio, y así ver si existe alguna relación entre esas variables. Para esto se hace uso de los boxplot, con el fin de comparar promedios y distribuciones, y detectar algunos outliers segun el sentimiento. Es importante destacar aquí la presencia de hashtags (#), que suponen una mayor extensión al largo del tweet.
   
 ```{r}
 #Promedio en el largo de tweets por sentimiento.
@@ -286,11 +286,11 @@ A partir del análisis exploratorio se proponen las siguientes hipótesis y preg
 
 1. ¿El sentimiento general sobre el COVID-19 varía por la localidad registrada?
 2. Dada las características del COVID-19 y sus consecuencias, más del 50% de los tweets están asociados a un sentimiento negativo o extremadamente negativo.
-3. ¿Los sentimientos mayormente expresados en los Tweets tienen relacion con el contexto social del lugar desde donde son publicados?
+3. ¿Los sentimientos mayormente expresados en los Tweets tienen relación con el contexto social del lugar desde donde son publicados?
 4. ¿Se puede asociar un sentimiento a una palabra dependiendo de las otras palabras mencionadas en un tweet?
-5. ¿Existe un alza o descenso de comentarios positivos al avanzar de los días?¿Si es así, a qué se debe?
-6. ¿Podemos generar un clasificador que se pueda generalizar en base a los datos que tenemos?
-7. El sentimiento de los comentarios se ha visto modificado con respecto a tiempos anterior al Covid?
+5. ¿Existe un alza o descenso de comentarios positivos al avanzar los días?¿Si es así, a qué se debe?
+6. ¿Se puede generar un clasificador que se pueda generalizar en base a los datos que tenemos?
+7. ¿El sentimiento de los comentarios se ha visto modificado con respecto a tiempos anteriores al Covid?
 
 # Proximos pasos.
 
@@ -298,7 +298,7 @@ Como se mencionó antes, los datos manejados no tienen un estándar en la catego
 
 Es necesario también mejorar el filtro de palabras, esta vez considerando el uso de hashtags, para realizar un análisis más detallado acerca de la correlación entre la extensión de estas y el sentimiento asociado al tweet.
 
-Y para entrar a comparar el sentimiento promedio de tweets en distintas fechas, se requerirá elaborar y extender un algoritmo de clasificación a nuevos dataset.
+Y para entrar a comparar el sentimiento promedio de tweets en distintas fechas, se requerirá elaborar y extender un algorítmo de clasificación a nuevos dataset.
 
 
 # Referencias
