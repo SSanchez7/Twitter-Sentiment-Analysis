@@ -311,13 +311,9 @@ Y para entrar a comparar el sentimiento promedio de tweets en distintas fechas, 
 # Contribuciones del equipo
 Existen tareas que fueron realizadas en conjunto por el grupo, tales como la selección del tema de interés y la búsqueda de bases de datos que se ajustarán a los requerimientos del grupo. A continuación se detallan las tareas que realizó cada miembro del equipo:
 
-1. Nicolás Herrera: Construcción de presentación, grabación, edición del vídeo, construcción de tablas y análisis de los datos.
-
-2. Yesenia Marulanda: Redacción de introducción, motivación e hipótesis del trabajo y construcción de presentación.
-
-3. Franco Migliorelli: Redacción de introducción, motivación y análisis de gráficos generados, además de redacción de próximos pasos.
-
-4. Samuel Sánchez: Análisis de gráficos, tratamiento de datos y redacción de hipótesis y preguntas.
-
-5. Sebastián Urbina: Creación de gráficos, limpieza y tratamientos de datos.
+1. Nicolás Herrera:
+2. Yesenia Marulanda:
+3. Franco Migliorelli:
+4. Samuel Sánchez:
+5. Sebastián Urbina:
 
