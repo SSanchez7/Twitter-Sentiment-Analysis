@@ -1,8 +1,11 @@
 ---
-title: "Proyecto semestral: Hito 1"
-author: "Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez, Sebastián Urbina"
+title: 'Proyecto semestral: Hito 1'
+author: Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez, Sebastián
+  Urbina
 date: "Octubre 2020"
 output:
+  word_document:
+    toc: yes
   pdf_document:
     toc: yes
   html_document:
