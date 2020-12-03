@@ -49,12 +49,14 @@ library(wordcloud2)
 library(stringr)
 ```
 
-A continuación se procece a cargar la base de datos para poder realizar el análisis respectivo.
+A continuación se procece a cargar la base de datos para poder realizar el análisis respectivo. Además se incluye un dataframe con datos del covid para visualizar ciertas relaciones entre sentimientos y casos nuevos.
 
 ```{r}
 train  <- read.csv("data/Corona_NLP_train.csv", encoding="Latin-1")
 test <- read.csv("data/Corona_NLP_test.csv", encoding="Latin-1")
 df <- rbind(train,test)
+covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
+covid$date <- as.Date(covid$date) #cambiamos a date las fechas de covid
 ```
 
 Tal y como se mencionó anteriormente, esta base de datos contiene 6 columnas y 44.955 filas de datos. Para poder tener una referencia de cómo son estos campos, a continuación se puede observar una vista previa de las primeras filas del set de datos.
@@ -105,6 +107,35 @@ tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
 ```
 
 Se puede observar en este último gráfico que en general aquellos sentimientos que prevalecen son los de "Positive" y "Negative". Por otro lado, todos los tipos de sentimientos registrados tienen un comportamiento similar a lo largo del tiempo. Mientras que el sentimiento  menos registrados en el tiempo  corresponde al de "Extremely Negative", lo cual es interesante dado el contexto de la base de datos, en donde se esperaría que hubiese una mayor cantidad de tweets asociado a un sentimiento negativo o extramademente negativo.
+
+
+Sería interesante observar la cantidad de casos nuevos en relación a los sentimientos en las fechas, lo siguiente realiza lo mencionado.
+
+```{r}
+#filtramos las fechas para que se ajusten a los datos de los tweets y seleccionamos los nuevos casos mundiales
+covid <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "World",]
+#seleccionamos sólo la fecha y nuevos casos
+covid_new_cases <- covid %>% select(date, new_cases)
+
+#Creamos una nueva columna en formado "mes-dia" para graficar 
+covid_new_cases <- covid_new_cases %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+tw_mes_dia <- tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+#Unimos los nuevos casos con el df de tweets
+tw <- merge(tw_mes_dia, covid_new_cases, by = "mes_dia")
+
+ggplot(data = tw, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en el Mundo") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
+#ggsave(plot = last_plot(), dpi = 300, filename = "evol_sent_casos_covid.pdf")
+```
+En generar se puede observar que la tendencia de casos nuevos es bastante clara en los meses de abril y marzo, sin embargo no se aprecia alguna relación con los sentimientos. Esto puede deberse a que la recolección de tweets fue intermitente y por tanto no puede representar de manera efectiva las emociones etiquetadas manualmente de forma global.
+
+
 
 En el siguiente gráfico se puede observar la cantidad de tweets por cada tipo de sentimiento durante todo el periodo de observación.
 ```{r}
@@ -173,6 +204,7 @@ En el siguiente paso, se aplica la función *limpiar_texto* al contenido de los 
 ```{r}
 tweets <- df %>% mutate(texto_vector = map(.x = OriginalTweet, .f = limpiar_texto))
 ```
+  
 ```{r}
 tweets %>% select(texto_vector) %>% head()
 ```
