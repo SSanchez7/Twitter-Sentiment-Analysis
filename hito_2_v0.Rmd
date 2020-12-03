@@ -1,0 +1,175 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+df <- read.csv("data/covid19_tweets.csv", encoding="Latin-1")
+```
+```{r}
+get_nrc_sentiment("I love icecreams")
+```
+
+```{r}
+limpiar_texto <- function(texto){
+    # Se convierte todo el texto a minúsculas
+    nuevo_texto <- tolower(texto)
+    # Eliminación de páginas web (palabras que empiezan por "http." seguidas 
+    # de cualquier cosa que no sea un espacio)
+    nuevo_texto <- str_replace_all(nuevo_texto,"http\\S*", "")
+    # Eliminación de signos de puntuación
+    nuevo_texto <- str_replace_all(nuevo_texto,"[[:punct:]]", " ")
+    # Eliminación de números
+    nuevo_texto <- str_replace_all(nuevo_texto,"[[:digit:]]", " ")
+    # Eliminación de espacios en blanco múltiples
+    nuevo_texto <- str_replace_all(nuevo_texto,"[\\s]+", " ")
+    # Tokenización por palabras individuales
+    nuevo_texto <- str_split(nuevo_texto, " ")[[1]]
+    # Eliminación de tokens con una longitud < 2
+    nuevo_texto <- keep(.x = nuevo_texto, .p = function(x){str_length(x) > 1})
+    return(nuevo_texto)
+}
+```
+
+```{r}
+tweets_2 <- df %>% mutate(texto_vector = map(.x = text, .f = limpiar_texto))
+```
+
+```{r}
+library(textdata)
+
+nrc <- get_sentiments("nrc")
+```
+
+```{r}
+colnames(nrc)[1] <- "word"
+tw2 <- tweets %>% select(-c(1,2)) %>% unnest() 
+colnames(tw2)[5] <- "word"
+```
+
+
+```{r}
+tw2 <- inner_join(nrc, tw2, by ="word")
+  
+```
+
+
+```{r}
+ggplot(data =tw2, aes( x = TweetAt)) + geom_line(aes(y = count(), group = Sentiment))
+```
+
+
+```{r}
+covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
+covid$date <- as.Date(covid$date) #cambiamos a date las fechas de covid
+covid_india <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "India",]
+covid_india <- covid_india %>% select(date, new_cases)
+
+covid_india <- covid_india %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+
+tw_mes_dia <- tweets_mes_dia %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+#Unimos los nuevos casos con el df de tweets
+tw <- merge(tw_mes_dia, covid_new_cases, by = "mes_dia")
+```
+
+
+```{r}
+estados_abr <- c("AL", "AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY")
+estados <-c("Alabama",	"Alaska",	"Arizona",	"Arkansas",	"California",	"Colorado",	"Connecticut",	"Delaware",	"Florida",	"Georgia",	"Hawaii",	"Idaho",	"Illinois",	"Indiana",	"Iowa",	"Kansas",	"Kentucky",	"Louisiana",	"Maine",	"Maryland",	"Massachusetts",	"Michigan",	"Minnesota",	"Mississippi",	"Missouri",	"Montana",	"Nebraska",	"Nevada",	"New Hampshire",	"New Jersey",	"New Mexico",	"NewYork",	"North Carolina",	"North Dakota",	"Ohio",	"Oklahoma",	"Oregon",	"Pennsylvania",	"Rhode Island",	"South Carolina",	"South Dakota",	"Tennessee",	"Texas", "Utah",	"Vermont",	"Virginia",	"Washington",	"West Virginia",	"Wisconsin",	"Wyoming")
+auxs <- c("USA","United States","Estados Unidos","EEUU")
+
+estados_all <- c(estados_abr, estados, auxs)
+#estados_all <- tolower(estados_all)
+
+```
+
+
+
+```{r}
+es_usa <- function(location){
+  loc <- tolower(location)
+  loc <- str_replace_all(loc," ","")
+  if(loc==""){
+    return("")
+  }
+  loc_list <- unlist(strsplit(loc,"[,]"))
+  for(w in loc_list){
+    for(s in estados_all){
+      if(grepl(w, s, fixed = TRUE)){
+        return("United States")
+      }
+    }
+  }
+  
+}
+```
+
+
+```{r}
+states <- "AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|NewYork|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|USA|United States|Estados Unidos|EEUU"
+tweets_usa <- df %>% filter(grepl(states, Location)) %>% filter(!grepl("INDIA|india|India|London|uk|UK|london|england|England|LONDON", Location)) 
+
+tweets_uk <- df %>% filter(grepl("London|uk|UK|london|england|England|LONDON",Location))
+tweets_india <- df %>% filter(grepl("india|India|INDIA", Location)) %>% filter(!grepl("Indiana|indiana",Location))
+```
+
+```{r}
+tweets_usa$TweetAt <- as.Date(tweets_usa$TweetAt, format="%d-%m-%y")
+tweets_mes_dia_usa <- tweets_usa %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
+
+
+tweets_mes_dia_usa  %>%
+  group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
+  ggplot(aes(x = mes_dia, y = n, color = Sentiment)) +
+  geom_line(aes(group = Sentiment)) +
+  labs(title = "Número de tweets publicados", x = "fecha de publicación",
+       y = "número de tweets") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, size = 6),
+        legend.position = "bottom")
+```
+
+```{r}
+tweets_uk$TweetAt <- as.Date(tweets_uk$TweetAt, format="%d-%m-%y")
+tweets_mes_dia_uk <- tweets_uk %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
+
+
+tweets_mes_dia_uk  %>%
+  group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
+  ggplot(aes(x = mes_dia, y = n, color = Sentiment)) +
+  geom_line(aes(group = Sentiment)) +
+  labs(title = "Número de tweets publicados", x = "fecha de publicación",
+       y = "número de tweets") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, size = 6),
+        legend.position = "bottom")
+```
+
+```{r}
+covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
+covid_india <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "India",]
+covid_india <- covid_india %>% select(date, new_cases)
+
+covid_india <- covid_india %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+#Unimos los nuevos casos con el df de tweets
+
+####
+tweets_india$TweetAt <- as.Date(tweets_india$TweetAt, format="%d-%m-%y")
+tweets_mes_dia_india <- tweets_india %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
+tweets_mes_dia_india <- tweets_mes_dia_india %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+###
+tweets_mes_dia_india <- merge(tweets_mes_dia_india, covid_india, by = "mes_dia")
+
+ggplot(data = tweets_mes_dia_india, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en el Mundo") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
+
+```
+
+
+
