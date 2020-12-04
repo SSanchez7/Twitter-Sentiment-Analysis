@@ -4,13 +4,13 @@ author: Nicolás Herrera, Yesenia Marulanda, Franco Migliorelli, Samuel Sánchez
   Urbina
 date: "Octubre 2020"
 output:
-  word_document:
-    toc: yes
-  pdf_document:
-    toc: yes
   html_document:
     number_sections: yes
     theme: spacelab
+    toc: yes
+  pdf_document:
+    toc: yes
+  word_document:
     toc: yes
 ---
 
@@ -111,11 +111,12 @@ Se puede observar en este último gráfico que en general aquellos sentimientos 
 
 Sería interesante observar la cantidad de casos nuevos en relación a los sentimientos en las fechas, lo siguiente realiza lo mencionado.
 
+
 ```{r}
 #filtramos las fechas para que se ajusten a los datos de los tweets y seleccionamos los nuevos casos mundiales
-covid <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "World",]
+covid_word <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "World",]
 #seleccionamos sólo la fecha y nuevos casos
-covid_new_cases <- covid %>% select(date, new_cases)
+covid_new_cases <- covid_word %>% select(date, new_cases)
 
 #Creamos una nueva columna en formado "mes-dia" para graficar 
 covid_new_cases <- covid_new_cases %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
@@ -135,6 +136,91 @@ ggplot(data = tw, aes( x = mes_dia)) +
 ```
 En generar se puede observar que la tendencia de casos nuevos es bastante clara en los meses de abril y marzo, sin embargo no se aprecia alguna relación con los sentimientos. Esto puede deberse a que la recolección de tweets fue intermitente y por tanto no puede representar de manera efectiva las emociones etiquetadas manualmente de forma global.
 
+
+```{r}
+states <- "AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|NewYork|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|USA|United States|Estados Unidos|EEUU"
+tweets_usa <- df %>% filter(grepl(states, Location)) %>% filter(!grepl("INDIA|india|India|London|uk|UK|london|england|England|LONDON", Location)) 
+
+tweets_uk <- df %>% filter(grepl("London|uk|UK|london|england|England|LONDON",Location))
+tweets_india <- df %>% filter(grepl("india|India|INDIA", Location)) %>% filter(!grepl("Indiana|indiana",Location))
+```
+
+```{r}
+covid_usa <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "United States",]
+covid_usa <- covid_usa %>% select(date, new_cases)
+
+covid_usa <- covid_usa %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+
+
+tweets_usa$TweetAt <- as.Date(tweets_usa$TweetAt, format="%d-%m-%y")
+tweets_mes_dia_usa <- tweets_usa %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
+
+tweets_mes_dia_usa <- tweets_mes_dia_usa %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+###
+tweets_mes_dia_usa <- merge(tweets_mes_dia_usa, covid_usa, by = "mes_dia")
+
+
+ggplot(data = tweets_mes_dia_usa, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en USA") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
+
+```
+
+```{r}
+covid_uk <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "United Kingdom",]
+covid_uk <- covid_uk %>% select(date, new_cases)
+
+covid_uk <- covid_uk %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+
+
+tweets_uk$TweetAt <- as.Date(tweets_uk$TweetAt, format="%d-%m-%y")
+tweets_mes_dia_uk <- tweets_uk %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
+
+tweets_mes_dia_uk <- tweets_mes_dia_uk %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+###
+tweets_mes_dia_uk <- merge(tweets_mes_dia_uk, covid_uk, by = "mes_dia")
+
+
+ggplot(data = tweets_mes_dia_uk, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en UK") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
+```
+
+```{r}
+#covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
+covid_india <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "India",]
+covid_india <- covid_india %>% select(date, new_cases)
+
+covid_india <- covid_india %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+#Unimos los nuevos casos con el df de tweets
+
+####
+tweets_india$TweetAt <- as.Date(tweets_india$TweetAt, format="%d-%m-%y")
+tweets_mes_dia_india <- tweets_india %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
+tweets_mes_dia_india <- tweets_mes_dia_india %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+###
+tweets_mes_dia_india <- merge(tweets_mes_dia_india, covid_india, by = "mes_dia")
+
+ggplot(data = tweets_mes_dia_india, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en India") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
+
+```
 
 
 En el siguiente gráfico se puede observar la cantidad de tweets por cada tipo de sentimiento durante todo el periodo de observación.

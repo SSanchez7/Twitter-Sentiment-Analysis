@@ -114,39 +114,59 @@ tweets_india <- df %>% filter(grepl("india|India|INDIA", Location)) %>% filter(!
 ```
 
 ```{r}
+
+covid_usa <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "United States",]
+covid_usa <- covid_usa %>% select(date, new_cases)
+
+covid_usa <- covid_usa %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+
+
 tweets_usa$TweetAt <- as.Date(tweets_usa$TweetAt, format="%d-%m-%y")
 tweets_mes_dia_usa <- tweets_usa %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
 
+tweets_mes_dia_usa <- tweets_mes_dia_usa %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+###
+tweets_mes_dia_usa <- merge(tweets_mes_dia_usa, covid_usa, by = "mes_dia")
 
-tweets_mes_dia_usa  %>%
-  group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
-  ggplot(aes(x = mes_dia, y = n, color = Sentiment)) +
-  geom_line(aes(group = Sentiment)) +
-  labs(title = "Número de tweets publicados", x = "fecha de publicación",
-       y = "número de tweets") +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, size = 6),
-        legend.position = "bottom")
+
+ggplot(data = tweets_mes_dia_usa, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en USA") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
+
 ```
 
 ```{r}
+covid_uk <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "United Kingdom",]
+covid_uk <- covid_uk %>% select(date, new_cases)
+
+covid_uk <- covid_uk %>% mutate(mes_dia = format(date, "%m-%d")) %>% select(-c(1))
+
+
 tweets_uk$TweetAt <- as.Date(tweets_uk$TweetAt, format="%d-%m-%y")
 tweets_mes_dia_uk <- tweets_uk %>% mutate(mes_dia = format(TweetAt, "%m-%d"))
 
+tweets_mes_dia_uk <- tweets_mes_dia_uk %>% group_by(Sentiment, mes_dia) %>% summarise(n = n())
+###
+tweets_mes_dia_uk <- merge(tweets_mes_dia_uk, covid_uk, by = "mes_dia")
 
-tweets_mes_dia_uk  %>%
-  group_by(Sentiment, mes_dia) %>% summarise(n = n()) %>%
-  ggplot(aes(x = mes_dia, y = n, color = Sentiment)) +
-  geom_line(aes(group = Sentiment)) +
-  labs(title = "Número de tweets publicados", x = "fecha de publicación",
-       y = "número de tweets") +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, size = 6),
-        legend.position = "bottom")
+
+ggplot(data = tweets_mes_dia_uk, aes( x = mes_dia)) + 
+  geom_line(aes( y = n, color = Sentiment, group = Sentiment)) + 
+  geom_line(aes( y = new_cases/100, group = Sentiment)) +
+  scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en UK") + 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
 ```
 
 ```{r}
-covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
+#covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
 covid_india <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "India",]
 covid_india <- covid_india %>% select(date, new_cases)
 
@@ -165,7 +185,7 @@ ggplot(data = tweets_mes_dia_india, aes( x = mes_dia)) +
   geom_line(aes( y = new_cases/100, group = Sentiment)) +
   scale_y_continuous(name = "Cantidad Tweets", sec.axis = sec_axis(~.*100, name = "Casos Nuevos"))+
   theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom") + 
-  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en el Mundo") + 
+  labs(x = "Fecha", title = "Evolución Sentimientos y Casos Nuevos COVID en India") + 
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
 
