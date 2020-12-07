@@ -172,6 +172,8 @@ ggplot(data = tweets_mes_dia_usa, aes( x = mes_dia)) +
 
 ```
 
+Luego al realizar el mismo análisis con respecto a los casos nuevos en Estados Unidos, el país con más tweets en el dataframe, no se observar patrones de relación respecto a los sentimientos. Asimismo se mantiene la prevalencia de sentimientos positivos a lo largo del tiempo.
+
 ```{r}
 covid_uk <- covid[covid$date >= min(df$TweetAt) & covid$date <= max(df$TweetAt) & covid$location == "United Kingdom",]
 covid_uk <- covid_uk %>% select(date, new_cases)
@@ -196,6 +198,9 @@ ggplot(data = tweets_mes_dia_uk, aes( x = mes_dia)) +
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90, size = 10),legend.position = "bottom")
 ```
+
+Si ahora vemos los casos nuevos y sentimientos del Reino Unido, en general la tendencia de tweets positivos no se mantiene, pues a principios de marzo la cantidad de Tweets negativos supera a los pasitivos, exactamente el 11 de marzo. 
+
 
 ```{r}
 #covid <- read.csv("data/covid-data.csv", encoding = "UTF-8") #datos del covid 
@@ -223,6 +228,7 @@ ggplot(data = tweets_mes_dia_india, aes( x = mes_dia)) +
 
 ```
 
+En relación con India, el patron de sentimientos a lo largo del tiempo es bastante intermitente, lo que puede deberse en parte a la escasa recolección de Tweets. Sin embargo, no deja de ser interesante que el 20 de marzo existe un pico de contagios negativos. En general no prevalecen los sentimientos positivos como Estados Unidos, lo que no deja de llamar la atención. Aunque hay que tener en consideración que los tweets recolectados de India son pocos. 
 
 En el siguiente gráfico se puede observar la cantidad de tweets por cada tipo de sentimiento durante todo el periodo de observación.
 ```{r}
