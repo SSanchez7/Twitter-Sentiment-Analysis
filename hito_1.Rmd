@@ -457,9 +457,9 @@ Con el fin de responder las preguntas e hipótesis que quedan por evaluar, se pr
 
 •	Para definir el modelo que arroja una mejor clasificación se evaluará la base de datos usando Naive Bayes, Arboles de desicion, K_Mean y SVM, en donde se utilizan las columnas por palabras creadas anteriormente para poder predecir un sentimiento. Se asignaran hiperparámetros de evaluación a cada uno de los modelos a usar utilizando técnicas como GridS.
 
-•	Los resultados obtenidos al aplicar los diferentes modelos se compararán en base a métricas tradicionales como F1, precision y recall, además aplicando validación cruzada sobre los grupos de entrenamiento  y testeo respectivamente. 
+•	Los resultados obtenidos al aplicar los diferentes modelos se compararán en base a métricas tradicionales como F1, precision y recall, utilizando una matriz de confusión para cada caso. Además se aplicará validación cruzada sobre los grupos de entrenamiento  y testeo respectivamente. 
 
-•	Después de elegir el modelo que mejor clasifica los datos, se usará para asignar sentimiento a una base de datos nueva que será limpiada y estandarizada según los atributos de la base de dato inicial.
+•	Después de elegir el modelo que mejor clasifica los datos a partir de las métricas mencionadas, se usará este modelo para asignar sentimiento a una base de datos nueva que será limpiada y estandarizada según los atributos de la base de datos inicial.
 
 •	Se agrupará la asignación de sentimiento de la base de datos nueva según ubicación y se comparará con la base de datos inicial, para así identificar si existe alguna tendencia o diferencia en dos periodos de tiempo. Uno al inicio de la pandemia y el otro ya transcurrido algunos meses.
 
