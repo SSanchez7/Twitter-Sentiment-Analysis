@@ -455,9 +455,9 @@ Con el fin de responder las preguntas e hipótesis que quedan por evaluar, se pr
 
 •	Se dividirá la base de datos en dos grupo set de entrenamiento y set de evaluación, con un porcentaje de 70% y 30% respectivamente .
 
-•	Para definir el modelo que arroja una mejor clasificación se evaluará la base de datos usando Naive Bayes, Arboles de desicion, K_Mean y SVM. Se asignaran hiperparametros de evaluación a cada uno de los modelos a usar utilizando técnicas como GridS
+•	Para definir el modelo que arroja una mejor clasificación se evaluará la base de datos usando Naive Bayes, Arboles de desicion, K_Mean y SVM, en donde se utilizan las columnas por palabras creadas anteriormente para poder predecir un sentimiento. Se asignaran hiperparámetros de evaluación a cada uno de los modelos a usar utilizando técnicas como GridS.
 
-•	Los resultados obtenidos al aplicar los diferentes modelos se compararán en base a métricas tradicionales F1, precision y recall, además aplicando validación cruzada sobre los grupos  cross validation sobre lo grupos de entrenamiento  y testeo respectivamente. 
+•	Los resultados obtenidos al aplicar los diferentes modelos se compararán en base a métricas tradicionales como F1, precision y recall, además aplicando validación cruzada sobre los grupos de entrenamiento  y testeo respectivamente. 
 
 •	Después de elegir el modelo que mejor clasifica los datos, se usará para asignar sentimiento a una base de datos nueva que será limpiada y estandarizada según los atributos de la base de dato inicial.
 
