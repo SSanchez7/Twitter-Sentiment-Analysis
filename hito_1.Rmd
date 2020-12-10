@@ -449,22 +449,22 @@ No es posible encontrar una base de datos, previa a la pandemia, que sirva como 
 
 Con el fin de responder las preguntas e hipótesis que quedan por evaluar, se propone seguir la siguiente metodología.
 
-La metodologia consiste principalmente en los siguientes pasos (algunos de ellos, ya han sido realizados, por lo que)
+La metodologia consiste principalmente en los siguientes pasos (algunos de ellos, ya han sido realizados)
 
 1. Preprocesamiento (limpieza).
-* En el data set inicial existen ubicaciones desde donde se escribieron los   Tweets descritas por ciudad, para el proyecto las ubicaciones deben ser dadas por país, así que se estandarizó este atributo de manera de poder interpretar la información. También se eliminaron hashtags, pues no son considerados en el análisis de sentimiento.
-* Se removeran notaciones propias de Twitter como los Hashtag (#), retweets (RT) e identificadores de cuenta (@). *REVISAR*
-* Se eliminaran URL's, hipervinculos, emoticones y todo dato y simbolo que no sean letras, para si tratar solamente con datos de texto. *REVISAR*
-* Se mejorara el filtro de palabras "vacias" del lenguaje (conectores, etc), que no enfatizan ninguna emocion y extienden innecesariamente el conjunto ed datos para el estudio. *REVISAR*
-* Se comprimiran palabras alargadas (holaaaa -> hola) y descomprimiran las abreviadas. Estas ultimas, por lo general son adjetivos o sustantivos que contienen mucho sentimiento, importante para el analisis. *REVISAR*
+* En el data set inicial existen ubicaciones desde donde se escribieron los Tweets descritas por ciudad, para el proyecto las ubicaciones deben ser dadas por país, así que se estandarizó este atributo de manera de poder interpretar la información. También se eliminaron hashtags, pues no son considerados en el análisis de sentimiento.
+* Se removeran notaciones propias de Twitter como los Hashtag (#), retweets (RT) e identificadores de cuenta (@). 
+* Se eliminaran URL's, hipervinculos, emoticones y todo dato y simbolo que no sean letras, para si tratar solamente con datos de texto. 
+* Se mejorara el filtro de palabras "vacias" del lenguaje (conectores, etc), que no enfatizan ninguna emocion y extienden innecesariamente el conjunto de datos para el estudio. 
+* Se comprimirán palabras alargadas (holaaaa -> hola) y descomprimiran las abreviadas. Estas ultimas, por lo general son adjetivos o sustantivos que contienen mucho sentimiento, importante para el analisis. 
   
 2. Extraccion de caracteristicas importantes del texto limpio.
-* Se extraeran características del texto de los tweets (como adjetivos, verbos y sustantivos) y representándolas en forma vectorial se les asignara un sentimiento, para asi lograr detectar la polaridad de la oracion completa, enfocandose en terminos de freceuncia y precensia de estas palabras. Esta seccion se realizó en parte en el Hito 1, pero para el Hito 3 se trabajará de forma más sofisticada. *REVISAR*
+* Se extraerán características del texto de los tweets (como adjetivos, verbos y sustantivos) y representándolas en forma vectorial se les asignara un sentimiento, para asi lograr detectar la polaridad de la oracion completa, enfocandose en terminos de freceuncia y presencia de estas palabras. Esta seccion se realizó en parte en el Hito 1, pero para el Hito 3 se trabajará de forma más sofisticada. 
 
 3. Entrenamiento del modelo.
 * Se dividirá la base de datos en dos grupos: set de entrenamiento y set de evaluación, con un porcentaje de 70% y 30% respectivamente .
-* Gracias a que los datos ya venian etiquetados con valores de sentimiento, no se hace necesario etiquetar de forma manual el dataset. NO bien, reduciremos el numero de clases de la clasificacion dada (consiste de 5), agrupando las "Extremadamente negativos" y "Extremadamente positivos" en "Negativo" y "Positivo" respectivamente, esto para lograr reducir ... *REVISAR*
-* Para definir el modelo que arroja una mejor clasificación se evaluará la base de datos usando Naive Bayes, Arboles de desicion, K_Mean y SVM, en donde se utilizan las columnas por palabras creadas anteriormente para poder predecir un sentimiento y además, para el caso de K_Mean se utilizará el método del codo para definir la cantidad de clusters. Se asignaran hiperparámetros de evaluación a cada uno de los modelos a usar utilizando técnicas como GridS.
+* Gracias a que los datos ya venian etiquetados con valores de sentimiento, no se hace necesario etiquetar de forma manual el dataset. No bien, reduciremos el numero de clases de la clasificacion dada (consiste de 5), agrupando las "Extremadamente negativos" y "Extremadamente positivos" en "Negativo" y "Positivo" respectivamente, esto para lograr definir un clasificador sólo en base a estas clases.
+* Para definir el modelo que arroja una mejor clasificación se evaluará la base de datos usando Naive Bayes, Arboles de desicion, K_Mean y SVM, en donde se utilizan las columnas por palabras creadas anteriormente para poder predecir un sentimiento y además, para el caso de K_Mean se utilizará el método del codo para definir la cantidad de clusters. Se asignaran hiperparámetros de evaluación a cada uno de los modelos a usar utilizando técnicas como GridSearch.
 
 4. Evaluacion del modelo
 * Los resultados obtenidos al aplicar los diferentes modelos se compararán en base a métricas tradicionales como F1, precision y recall, utilizando una matriz de confusión para cada caso. Además se aplicará validación cruzada sobre los grupos de entrenamiento  y testeo respectivamente. 
@@ -484,13 +484,13 @@ La metodologia consiste principalmente en los siguientes pasos (algunos de ellos
 # Contribuciones del equipo
 Existen tareas que fueron realizadas en conjunto por el grupo, tales como la selección del tema de interés y la búsqueda de bases de datos que se ajustarán a los requerimientos del grupo. A continuación se detallan las tareas que realizó cada miembro del equipo:
 
-1. Nicolás Herrera: Construcción de presentación, grabación, edición del vídeo, construcción de tablas y análisis de los datos.
+1. Nicolás Herrera: Redacción de metodología, análisis de gráficos y conclusiones.
 
 2. Yesenia Marulanda: Redacción de objetivos, metodología y respuesta a preguntas planteadas.
 
-3. Franco Migliorelli: Redacción de introducción, motivación y análisis de gráficos generados, además de redacción de próximos pasos.
+3. Franco Migliorelli: Creación de código para separación de columnas por sub-localidades.
 
-4. Samuel Sánchez: Análisis de gráficos, tratamiento de datos y redacción de hipótesis y preguntas.
+4. Samuel Sánchez: Planteamiento de las bases de la metodología, redacción y análisis.
 
-5. Sebastián Urbina: Creación de gráficos, limpieza, tratamientos de datos y cruzamiento con casos de Coronavirus 
+5. Sebastián Urbina: Creación de gráficos, limpieza, tratamientos de datos y cruzamiento con casos de Coronavirus.
 
