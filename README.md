@@ -1,4 +1,4 @@
 # Twitter-Sentiment-Analysis
 Data mining project on sentiment analysis on twitter regarding the Covid-19
 
-Final report in `hito_3.html` and `hito_3.pdf`
+Final report in `hito_3.html` and `Hito 3.pdf`
